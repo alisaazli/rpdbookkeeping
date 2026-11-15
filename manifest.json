@@ -1,0 +1,11 @@
+{
+  "name": "RPD Bookkeeping | Rumah Penjagaan Damai",
+  "short_name": "RPD Books",
+  "description": "Bookkeeping system for Rumah Penjagaan Damai",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f6fa",
+  "theme_color": "#191923",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]
+}
