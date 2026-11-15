@@ -147,7 +147,7 @@ function downloadReceipt(id,i){let t=state.transactions.find(x=>x.id===id),r=t?.
 function previewExistingReceipt(id,i){previewReceipt(id,i)}
 function openModal(title,body){document.getElementById("modalTitle").textContent=title;document.getElementById("modalBody").innerHTML=body;document.getElementById("modalBack").classList.add("show")}
 document.getElementById("modalClose").onclick=()=>document.getElementById("modalBack").classList.remove("show");document.getElementById("modalBack").onclick=e=>{if(e.target.id==="modalBack")e.currentTarget.classList.remove("show")};
-function render(){let m=document.getElementById("main");let pages={dashboard:dashboard,add:addPage,history:historyPage,approvals:approvalsPage,drafts:draftsPage,categories:categoriesPage,rules:rulesPage,reports:reportsPage,trash:trashPage,audit:auditPage,settings:settingsPage};m.innerHTML=(pages[page]||dashboard)();updateCounts();if(page==="history")filterHistory()}
+function render(){let m=document.getElementById("main");let pages={dashboard:dashboard,add:addPage,history:historyPage,approvals:approvalsPage,drafts:draftsPage,categories:categoriesPage,rules:rulesPage,reports:reportsPage,trash:trashPage,audit:auditPage,settings:settingsPage};m.innerHTML=(pages[page]||dashboard)();updateCounts();if(page==="add")refreshCategoryOptions();if(page==="history")filterHistory()}
 document.getElementById("themeBtn").onclick=()=>{state.settings.theme=state.settings.theme==="dark"?"light":"dark";document.documentElement.dataset.theme=state.settings.theme;save()};
 document.getElementById("backupBtn").onclick=exportBackup;
 function download(blob,name){let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500)}
