@@ -37,7 +37,7 @@
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="brand"><div class="brandmark"><img src="rpd-logo-approved.jpeg" alt="RPD Hub official logo"></div><div><h1>RPD Hub</h1><p>RPD MANAGEMENT SYSTEM</p></div></div><div class="top-actions"><span class="smalltext" style="color:#D7E5F2">BUILD 0.4.1 · DIAGNOSTIC</span><button class="btn" id="themeBtn">◐ <span>Theme</span></button><button class="btn" id="backupBtn">⇩ <span>Backup</span></button></div></header>
+<header class="topbar"><div class="brand"><div class="brandmark"><img src="rpd-logo-approved.jpeg" alt="RPD Hub official logo"></div><div><h1>RPD Hub</h1><p>RPD MANAGEMENT SYSTEM</p></div></div><div class="top-actions"><span class="smalltext" style="color:#D7E5F2">BUILD 0.4.2 · LOCAL PREVIEW</span><button class="btn" id="themeBtn">◐ <span>Theme</span></button><button class="btn" id="backupBtn">⇩ <span>Backup</span></button></div></header>
 <div class="layout">
 <aside><div class="nav-label">WORKSPACE</div><button class="navbtn active" data-page="dashboard"><span class="ico">▦</span>Dashboard</button><button class="navbtn" data-page="add"><span class="ico">＋</span>Add Transaction</button><button class="navbtn" data-page="history"><span class="ico">▤</span>Transaction History</button><button class="navbtn" data-page="approvals"><span class="ico">◷</span>Approvals <span id="approvalCount" class="badgecount"></span></button><button class="navbtn" data-page="drafts"><span class="ico">▧</span>Drafts</button><div class="nav-label">RESIDENT MANAGEMENT</div><button class="navbtn" data-page="residents"><span class="ico">♙</span>Residents</button><button class="navbtn" data-page="admissions"><span class="ico">▣</span>Admissions</button><div class="nav-label">MANAGEMENT</div><button class="navbtn" data-page="categories"><span class="ico">◇</span>Categories</button><button class="navbtn" data-page="rules"><span class="ico">⌁</span>Learning Rules</button><button class="navbtn" data-page="reports"><span class="ico">▥</span>Reports</button><button class="navbtn" data-page="trash"><span class="ico">♲</span>Trash</button><button class="navbtn" data-page="audit"><span class="ico">≡</span>Audit Trail</button><button class="navbtn" data-page="settings"><span class="ico">⚙</span>Settings</button></aside>
 <main id="main"></main>
@@ -82,10 +82,11 @@ function log(action,record,details=""){state.audit.unshift({id:uid(),at:new Date
 function updateCounts(){let el=document.getElementById("approvalCount");if(el)el.textContent=state.transactions.filter(t=>t.status==="pending").length||""}
 function activeCats(type){return (type==="in"?state.incomeCategories:state.categories).filter(c=>!c.archived).sort((a,b)=>a.order-b.order)}
 function allCategoryNames(){return [...state.categories,...state.incomeCategories].map(c=>c.name)}
-function openingFor(month){let explicit=state.openingBalances[month];if(explicit!==undefined)return Number(explicit);let d=new Date(month+"-01T00:00:00");d.setMonth(d.getMonth()-1);let prev=d.toISOString().slice(0,7);return closingFor(prev)}
+function previousMonth(month){let [y,m]=month.split("-").map(Number);m--;if(m===0){m=12;y--}return `${y}-${String(m).padStart(2,"0")}`}
 function sumType(type,arr=state.transactions){return arr.filter(t=>t.type===type&&t.status==="posted"&&!t.deletedAt).reduce((a,t)=>a+Number(t.amount),0)}
-function closingFor(month){let arr=state.transactions.filter(t=>t.status==="posted"&&!t.deletedAt&&t.date.startsWith(month));return openingForNoRecursion(month)+sumType("in",arr)-sumType("out",arr)}
-function openingForNoRecursion(month){if(state.openingBalances[month]!==undefined)return Number(state.openingBalances[month]);let d=new Date(month+"-01T00:00:00");d.setMonth(d.getMonth()-1);let prev=d.toISOString().slice(0,7);return closingFor(prev)}
+function monthNet(month){let arr=state.transactions.filter(t=>t.status==="posted"&&!t.deletedAt&&t.date.startsWith(month));return sumType("in",arr)-sumType("out",arr)}
+function openingFor(month){if(state.openingBalances[month]!==undefined)return Number(state.openingBalances[month]);let cursor=previousMonth(month),months=[],guard=0;while(state.openingBalances[cursor]===undefined&&guard<240){months.push(cursor);cursor=previousMonth(cursor);guard++}let balance=state.openingBalances[cursor]!==undefined?Number(state.openingBalances[cursor]):0;if(state.openingBalances[cursor]!==undefined)months.push(cursor);months.reverse();for(let m of months)balance+=monthNet(m);return balance}
+function closingFor(month){return openingFor(month)+monthNet(month)}
 function visiblePosted(){return state.transactions.filter(t=>t.status==="posted"&&!t.deletedAt)}
 function categoryFor(detail,type){let d=String(detail||"").toLowerCase();let cats=activeCats(type);let rules=state.rules.filter(r=>r.type===type);let hit=rules.filter(r=>d.includes(r.phrase.toLowerCase())).sort((a,b)=>b.phrase.length-a.phrase.length)[0];if(hit&&cats.some(c=>c.id===hit.categoryId))return hit.categoryId;let best=null;for(let c of cats){let terms=[c.name,...(c.subs||[])];for(let term of terms){let t=term.toLowerCase();if(t.length>2&&d.includes(t)&&(!best||t.length>best.len))best={id:c.id,len:t.length}}}return best?.id||""}
 function categoryObj(id,type){return (type==="in"?state.incomeCategories:state.categories).find(c=>c.id===id)}
@@ -114,7 +115,7 @@ function showPage(p){if((state.settings.role||"Owner")==="Admin"&&["add","approv
 document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
 function header(title,desc,action=""){return `<div class="pagehead"><div><h2>${title}</h2><p>${desc}</p></div>${action}</div>`}
 function metric(label,value,symbol,hint){return `<div class="card metric"><span class="symbol">${symbol}</span><div class="label">${label}</div><div class="value">${value}</div><div class="hint">${hint}</div></div>`}
-function rangeMonth(){return state.settings.dashboardMonth||monthNow()}
+function rangeMonth(){let m=state.settings?.dashboardMonth||monthNow();return /^\d{4}-(0[1-9]|1[0-2])$/.test(m)?m:monthNow()}
 function dashboard(){let mon=rangeMonth(),arr=visiblePosted().filter(t=>t.date.startsWith(mon)),inc=arr.filter(t=>t.type==="in").reduce((a,t)=>a+t.amount,0),out=arr.filter(t=>t.type==="out").reduce((a,t)=>a+t.amount,0),open=openingFor(mon),close=open+inc-out,by={};arr.filter(t=>t.type==="out").forEach(t=>{let c=categoryObj(t.categoryId,"out");let n=c?.name||t.categoryName||"Uncategorised";by[n]=(by[n]||0)+t.amount});let sorted=Object.entries(by).sort((a,b)=>b[1]-a[1]),max=sorted[0]?.[1]||1;let prev=new Date(mon+"-01T00:00:00");prev.setMonth(prev.getMonth()-1);let pm=prev.toISOString().slice(0,7),pa=visiblePosted().filter(t=>t.date.startsWith(pm)),po=pa.filter(t=>t.type==="out").reduce((a,t)=>a+t.amount,0);let recent=arr.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6);return `${header("Dashboard","Ringkasan kewangan Rumah Penjagaan Damai",`<div class="actions"><input aria-label="Month" type="month" id="dashMonth" value="${mon}" style="border:1px solid var(--line);border-radius:9px;padding:8px;background:var(--surface);color:var(--ink)"><button class="btn primary" onclick="showPage('add')">＋ Add Transaction</button></div>`)}
 <div class="cards">${metric("Opening Balance",money(open),"◉","Bank balance awal bulan")}${metric("Total Cash In",money(inc),"↗","Bulan dipilih")}${metric("Total Cash Out",money(out),"↘","Bulan dipilih")}${metric("Closing Balance",money(close),"▣","Baki akhir bulan")}</div>
 <div class="split"><section class="panel"><h3>Expenses by Category</h3>${sorted.length?sorted.map(([c,v])=>`<div class="barrow"><div class="barlabel"><a href="#" onclick="event.preventDefault();showPage('history');setTimeout(()=>{document.getElementById('catFilter').value='${esc(c)}';filterHistory()},0)" style="color:var(--primary)">${esc(c)}</a><b>${money(v)}</b></div><div class="bartrack"><div class="barfill" style="width:${v/max*100}%"></div></div></div>`).join(""):`<div class="empty">Belum ada rekod cash out untuk bulan ini.</div>`}</section>
@@ -192,11 +193,29 @@ function downloadReceipt(id,i){let t=state.transactions.find(x=>x.id===id),r=t?.
 function previewExistingReceipt(id,i){previewReceipt(id,i)}
 function openModal(title,body){document.getElementById("modalTitle").textContent=title;document.getElementById("modalBody").innerHTML=body;document.getElementById("modalBack").classList.add("show")}
 document.getElementById("modalClose").onclick=()=>document.getElementById("modalBack").classList.remove("show");document.getElementById("modalBack").onclick=e=>{if(e.target.id==="modalBack")e.currentTarget.classList.remove("show")};
-function render(){let m=document.getElementById("main");try{let pages={dashboard:dashboard,add:addPage,history:historyPage,approvals:approvalsPage,drafts:draftsPage,categories:categoriesPage,rules:rulesPage,reports:reportsPage,trash:trashPage,audit:auditPage,settings:settingsPage,residents:residentsPage,admissions:admissionsPage};if(!m)throw new Error("Main content container #main was not found");let renderer=pages[page]||dashboard;m.innerHTML=renderer();updateCounts();if(page==="add")refreshCategoryOptions();if(page==="history")filterHistory();if(page==="dashboard"){let dm=document.getElementById("dashMonth");if(dm)dm.addEventListener("change",e=>{state.settings.dashboardMonth=e.target.value||monthNow();save();render()})} }catch(err){console.error("RPD render failure",{page,error:err});let box=document.getElementById("rpdDiagnosticError");if(!box){box=document.createElement("section");box.id="rpdDiagnosticError";box.style.cssText="margin:16px;padding:16px;border:2px solid #d97706;border-radius:12px;background:#fff7ed;color:#7c2d12;white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.45 monospace";if(m&&m.parentNode)m.parentNode.insertBefore(box,m);else document.body.appendChild(box)}box.textContent="RPD DIAGNOSTIC — PAGE RENDER FAILED\nPage: "+String(page)+"\nError: "+String(err&&err.message||err)+"\nStack: "+String(err&&err.stack||"No stack available")+"\n\nPlease screenshot this message and send it to support.";if(m)m.innerHTML="";}}
+function render(){
+ const m=document.getElementById("main");
+ const pages={dashboard:dashboard,add:addPage,history:historyPage,approvals:approvalsPage,drafts:draftsPage,categories:categoriesPage,rules:rulesPage,reports:reportsPage,trash:trashPage,audit:auditPage,settings:settingsPage,residents:residentsPage,admissions:admissionsPage};
+ try{
+  const pageFn=pages[page]||dashboard;
+  const html=pageFn();
+  if(typeof html!=="string"||!html.trim()) throw new Error("The selected page returned no content.");
+  m.innerHTML=html;
+  updateCounts();
+  if(page==="add")refreshCategoryOptions();
+  if(page==="history")filterHistory();
+  if(page==="dashboard"){
+   const dm=document.getElementById("dashMonth");
+   if(dm)dm.addEventListener("change",e=>{const value=e.target.value;state.settings.dashboardMonth=/^\d{4}-(0[1-9]|1[0-2])$/.test(value)?value:monthNow();save();render()});
+  }
+ }catch(err){
+  console.error("RPD Hub page render failed:",page,err);
+  m.innerHTML=`<section class="panel"><h2>Unable to load this page</h2><p>The ${esc(page)} page could not be displayed. Your saved records have not been deleted.</p><p class="smalltext">Please return to Home or refresh the app. If this continues, share this error with RPD Hub support.</p><button class="btn primary" onclick="showPage('dashboard')">Try Home again</button></section>`;
+ }
+}
 document.getElementById("themeBtn").onclick=()=>{state.settings.theme=state.settings.theme==="dark"?"light":"dark";document.documentElement.dataset.theme=state.settings.theme;save()};
 document.getElementById("backupBtn").onclick=exportBackup;
 function download(blob,name){let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500)}
-window.addEventListener("error",function(e){console.error("RPD window error",e.error||e.message);});window.addEventListener("unhandledrejection",function(e){console.error("RPD unhandled rejection",e.reason);});
 document.documentElement.dataset.theme=state.settings.theme||"light";
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e});
 if("serviceWorker"in navigator&&location.protocol!=="file:")window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(console.warn));
