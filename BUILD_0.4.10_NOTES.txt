@@ -1,0 +1,17 @@
+RPD HUB — BUILD 0.4.10 NOTES
+
+Based on the supplied Build 0.4.9 package. This is a focused correction after iPhone verification showed that the previous print CSS fixed header overlapped report content and the Reports date controls still overflowed.
+
+Changes:
+- Replaced the fixed-position print letterhead overlay with a dedicated isolated print document in normal document flow. This avoids header/summary overlap in iOS Safari.
+- Print output now uses a dedicated white A4 layout rather than inheriting the app's mobile card layout.
+- Print document includes the exact official letterhead logo and only the approved company name, registration number, address and email.
+- Each generated print page has its own letterhead. Transactions are grouped into explicit pages and transaction table headings repeat within each page.
+- Increased specificity and applied border-box sizing to Reports date inputs and selects to prevent iOS intrinsic-width overflow beyond the Report Settings card.
+- Preserved the PDF export implementation, app icon, official letterhead asset, localStorage key rpd_bookkeeping_v2, and existing resident/refund workflows.
+
+Validation:
+- Inline JavaScript syntax check required after modification.
+- iPhone Safari print preview and date picker width remain to be verified on-device. Do not mark as passed until user screenshots confirm.
+
+Important: This remains a local-browser prototype. Do not enter real resident, medical or live financial data. Deploy the complete ZIP contents together. Do not clear website data.

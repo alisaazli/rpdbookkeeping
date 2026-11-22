@@ -47,3 +47,10 @@
 - Repeated official RPD letterhead on printed pages; retained the supplied approved logo files unchanged.
 - Added thousands separators to PDF transaction amounts.
 - Updated service-worker cache and PWA version; preserved application data key and workflows.
+
+## Build 0.4.10 — iOS print flow and date input correction
+
+- Removed fixed-position print letterhead overlay that caused content overlap in iOS print preview.
+- Added an isolated, normal-flow A4 print document with explicit page groups, repeated letterhead and table headings.
+- Strengthened iOS Reports date picker and select sizing with border-box constraints.
+- Preserved original app/letterhead assets and localStorage key `rpd_bookkeeping_v2`.

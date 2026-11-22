@@ -50,32 +50,13 @@
  .report-table{overflow:visible}
  .report-table table{min-width:0}
 }
-@media print{
- @page{size:A4;margin:12mm}
- html,body{background:#fff!important;color:#111!important;font-size:10pt!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
- body *{visibility:hidden!important}
- #main,#main *{visibility:visible!important}
- #main{position:absolute!important;left:0!important;top:0!important;width:100%!important;padding:0!important;margin:0!important}
- .topbar,aside,.mobilebar,.pagehead,.report-controls,.report-export,.footer,.modalback{display:none!important}
- .report-panel,.report-document,#reportResult{position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important;background:#fff!important;color:#111!important;border-radius:0!important}
- .rpd-letterhead{display:flex!important;gap:14px!important;margin:0 0 9mm!important;padding:0 0 5mm!important;border-bottom:1.5px solid #2878C8!important;break-inside:avoid}
- .rpd-letterhead img{width:25mm!important;height:25mm!important;max-width:25mm!important;flex-basis:25mm!important;object-fit:contain!important}
- .rpd-letterhead h1{font-size:15pt!important;color:#2878C8!important}
- .rpd-letterhead .reg,.rpd-letterhead .address,.rpd-letterhead .email{font-size:8pt!important;color:#111!important}
- .report-heading h2,.report-heading p,.report-document h3,.report-document p,.report-document td,.report-document th,.metric .label,.metric .value{color:#111!important}
- .report-heading{margin:0 0 5mm!important;padding:0 0 3mm!important}
- .report-heading h2{font-size:17pt!important}
- .report-heading p{font-size:9pt!important}
- .report-metrics{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:4mm!important}
- .metric{border:1px solid #bbb!important;border-top:2px solid #2878C8!important;background:#fff!important;box-shadow:none!important;padding:4mm!important;break-inside:avoid}
- .report-document{font-size:9pt!important}
- .report-document h3{font-size:12pt!important;margin:5mm 0 3mm!important}
- .report-document .metric .value{font-size:13pt!important}
- .bartrack{background:#eee!important}.barfill{background:#2878C8!important}
- .report-table{overflow:visible!important}.report-table table{width:100%!important;min-width:0!important;font-size:8pt!important;white-space:normal!important}
- .report-table th,.report-table td{padding:2.2mm 1.5mm!important;overflow-wrap:anywhere!important}
- .report-table tr{break-inside:avoid}
- .report-transactions-title{break-after:avoid}
+/* Build 0.4.10: iOS date controls must respect the card's inner width. */
+.report-panel,.report-controls,.report-filters,.report-filters>.field{box-sizing:border-box;min-width:0;max-width:100%}
+.report-filters>.field{width:100%}
+.report-filters .field>input[type="date"],
+.report-filters .field>select{box-sizing:border-box!important;display:block!important;width:100%!important;inline-size:100%!important;min-width:0!important;min-inline-size:0!important;max-width:100%!important;max-inline-size:100%!important;margin:0!important}
+@supports (-webkit-touch-callout:none){
+ .report-filters .field>input[type="date"]{-webkit-appearance:none;appearance:none;padding:10px 12px!important}
 }
 
 @media(max-width:600px){
@@ -98,40 +79,50 @@
 }
 
 
-/* Build 0.4.9: print must override the mobile card layout declared above. */
-@media print{
- @page{size:A4;margin:42mm 12mm 14mm}
- html,body{background:#fff!important;color:#111!important}
- .rpd-letterhead{position:fixed!important;top:0!important;left:0!important;right:0!important;width:100%!important;max-width:100%!important;margin:0!important;padding:0 0 4mm!important;gap:12px!important;background:#fff!important;border-bottom:1.5px solid #2878C8!important;break-inside:avoid!important;z-index:999!important}
- .rpd-letterhead img{width:22mm!important;height:22mm!important;max-width:22mm!important;flex:0 0 22mm!important;object-fit:contain!important}
- .rpd-letterhead>div{min-width:0!important}
- .rpd-letterhead h1{font-size:13pt!important;color:#2878C8!important}
- .rpd-letterhead .reg,.rpd-letterhead .address,.rpd-letterhead .email{font-size:7.5pt!important;line-height:1.35!important;color:#111!important}
- .report-heading{break-after:avoid!important}
- .report-document,.report-document *{color:#111!important;text-shadow:none!important}
- .report-document{background:#fff!important}
- .report-document .metric{background:#fff!important;color:#111!important;border:1px solid #bbb!important;box-shadow:none!important}
- .report-document .metric .label,.report-document .metric .value,.report-document .metric .hint{color:#111!important}
- .report-table{overflow:visible!important;background:#fff!important}
- .report-table table{display:table!important;width:100%!important;min-width:0!important;border-collapse:collapse!important;table-layout:fixed!important;white-space:normal!important;font-size:7.5pt!important;background:#fff!important}
- .report-table thead{display:table-header-group!important}
- .report-table tbody{display:table-row-group!important}
- .report-table tr{display:table-row!important;background:#fff!important;border:0!important;border-radius:0!important;padding:0!important;margin:0!important;break-inside:avoid!important;page-break-inside:avoid!important}
- .report-table th,.report-table td{display:table-cell!important;width:auto!important;padding:2mm 1.5mm!important;border-bottom:1px solid #ccc!important;white-space:normal!important;overflow-wrap:anywhere!important;vertical-align:top!important;background:#fff!important;color:#111!important;text-align:left!important}
- .report-table th{background:#1C3550!important;color:#fff!important;font-size:7pt!important}
- .report-table td:before{display:none!important;content:none!important}
- .report-table td.amount{text-align:right!important;font-variant-numeric:tabular-nums!important}
- .report-transactions-title{break-after:avoid!important;page-break-after:avoid!important}
- .bartrack{background:#eee!important}.barfill{background:#2878C8!important}
-}
+
+
+#rpdPrintRoot{display:none}
 
 
 .diagnostic-json{white-space:pre-wrap;overflow-wrap:anywhere;max-height:48vh;overflow:auto;background:var(--surface-2,var(--surface));border:1px solid var(--line);border-radius:10px;padding:12px;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink)}
+
+/* Build 0.4.10 — isolated, flow-based print document. No fixed overlays. */
+@media print{
+ @page{size:A4 portrait;margin:11mm}
+ html,body{width:auto!important;height:auto!important;margin:0!important;padding:0!important;background:#fff!important;color:#111!important;overflow:visible!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ body.rpd-print-mode>.app{display:none!important}
+ body.rpd-print-mode>#rpdPrintRoot{display:block!important;position:static!important;width:100%!important;max-width:none!important;margin:0!important;padding:0!important;background:#fff!important;color:#111!important;visibility:visible!important}
+ body.rpd-print-mode>#rpdPrintRoot *{visibility:visible!important;box-sizing:border-box!important;text-shadow:none!important}
+ .rp-page{display:block!important;width:100%!important;max-width:none!important;min-height:0!important;margin:0!important;padding:0!important;background:#fff!important;color:#111!important;break-after:page!important;page-break-after:always!important}
+ .rp-page:last-child{break-after:auto!important;page-break-after:auto!important}
+ .rp-letterhead{display:flex!important;align-items:center!important;gap:7mm!important;width:100%!important;margin:0 0 7mm!important;padding:0 0 4mm!important;border-bottom:1px solid #2878C8!important;background:#fff!important;break-inside:avoid!important;page-break-inside:avoid!important}
+ .rp-letterhead img{display:block!important;width:22mm!important;height:22mm!important;flex:0 0 22mm!important;max-width:22mm!important;object-fit:contain!important;background:#fff!important}
+ .rp-letterhead>div{flex:1 1 auto!important;min-width:0!important}
+ .rp-letterhead h1{margin:0 0 1mm!important;font:700 13pt/1.2 Arial,sans-serif!important;color:#2878C8!important}
+ .rp-letterhead p{margin:0!important;font:8pt/1.35 Arial,sans-serif!important;color:#111!important;overflow-wrap:anywhere!important}
+ .rp-summary h2,.rp-continued{margin:0 0 2mm!important;font:700 17pt/1.2 Arial,sans-serif!important;color:#111!important}
+ .rp-summary>p,.rp-period{margin:0 0 4mm!important;font:8pt/1.35 Arial,sans-serif!important;color:#222!important}
+ .rp-metrics{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:4mm!important;margin:3mm 0 4mm!important}
+ .rp-metrics>div{display:flex!important;flex-direction:column!important;gap:2mm!important;min-width:0!important;padding:3mm!important;border:1px solid #bbb!important;border-top:2px solid #2878C8!important;border-radius:2mm!important;background:#fff!important;color:#111!important;break-inside:avoid!important}
+ .rp-metrics span{font:700 8pt Arial,sans-serif!important;color:#333!important}
+ .rp-metrics b{font:700 12pt Arial,sans-serif!important;color:#111!important;overflow-wrap:anywhere!important}
+ .rp-summary h3,.rp-transactions-title{margin:4mm 0 2mm!important;font:700 11pt/1.2 Arial,sans-serif!important;color:#111!important;break-after:avoid!important;page-break-after:avoid!important}
+ .rp-category{display:flex!important;justify-content:space-between!important;gap:5mm!important;margin:0 0 1.5mm!important;padding:0!important;font:8pt/1.3 Arial,sans-serif!important;color:#111!important;break-inside:avoid!important}
+ .rp-category strong{font-weight:700!important;white-space:nowrap!important}
+ .rp-muted{font:8pt Arial,sans-serif!important;color:#333!important}
+ .rp-table{display:table!important;width:100%!important;max-width:100%!important;margin:0!important;border-collapse:collapse!important;table-layout:fixed!important;background:#fff!important;color:#111!important;font:7.5pt/1.3 Arial,sans-serif!important}
+ .rp-table thead{display:table-header-group!important}
+ .rp-table tbody{display:table-row-group!important}
+ .rp-table tr{display:table-row!important;break-inside:avoid!important;page-break-inside:avoid!important;background:#fff!important}
+ .rp-table th,.rp-table td{display:table-cell!important;padding:2mm 1.5mm!important;border-bottom:0.25mm solid #ccc!important;background:#fff!important;color:#111!important;text-align:left!important;vertical-align:top!important;white-space:normal!important;overflow-wrap:anywhere!important}
+ .rp-table th{background:#1C3550!important;color:#fff!important;font-weight:700!important;font-size:7pt!important}
+ .rp-table .num{text-align:right!important;font-variant-numeric:tabular-nums!important;white-space:nowrap!important}
+}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="brand"><div class="brandmark"><img src="rpd-logo-approved.jpeg" alt="RPD Hub app icon"></div><div><h1>RPD Hub</h1><p>RPD MANAGEMENT SYSTEM</p></div></div><div class="top-actions"><span class="smalltext" style="color:#D7E5F2">BUILD 0.4.9 · PROTOTYPE</span><button class="btn" id="themeBtn">◐ <span>Theme</span></button><button class="btn" id="backupBtn">⇩ <span>Backup</span></button></div></header>
+<header class="topbar"><div class="brand"><div class="brandmark"><img src="rpd-logo-approved.jpeg" alt="RPD Hub app icon"></div><div><h1>RPD Hub</h1><p>RPD MANAGEMENT SYSTEM</p></div></div><div class="top-actions"><span class="smalltext" style="color:#D7E5F2">BUILD 0.4.10 · PROTOTYPE</span><button class="btn" id="themeBtn">◐ <span>Theme</span></button><button class="btn" id="backupBtn">⇩ <span>Backup</span></button></div></header>
 <div class="layout">
 <aside><div class="nav-label">WORKSPACE</div><button class="navbtn active" data-page="dashboard"><span class="ico">▦</span>Dashboard</button><button class="navbtn" data-page="add"><span class="ico">＋</span>Add Transaction</button><button class="navbtn" data-page="history"><span class="ico">▤</span>Transaction History</button><button class="navbtn" data-page="approvals"><span class="ico">◷</span>Approvals <span id="approvalCount" class="badgecount"></span></button><button class="navbtn" data-page="drafts"><span class="ico">▧</span>Drafts</button><div class="nav-label">RESIDENT MANAGEMENT</div><button class="navbtn" data-page="residents"><span class="ico">♙</span>Residents</button><button class="navbtn" data-page="admissions"><span class="ico">▣</span>Admissions</button><div class="nav-label">MANAGEMENT</div><button class="navbtn" data-page="categories"><span class="ico">◇</span>Categories</button><button class="navbtn" data-page="rules"><span class="ico">⌁</span>Learning Rules</button><button class="navbtn" data-page="reports"><span class="ico">▥</span>Reports</button><button class="navbtn" data-page="trash"><span class="ico">♲</span>Trash</button><button class="navbtn" data-page="audit"><span class="ico">≡</span>Audit Trail</button><button class="navbtn" data-page="settings"><span class="ico">⚙</span>Settings</button></aside>
 <main id="main"></main>
@@ -422,7 +413,30 @@ function exportReportPDF(){
   doc.save('RPD_Report_'+d.from+'_to_'+d.to+'.pdf');
  });
 }
-function printReport(){let d=reportData();if(!d)return;document.getElementById('reportResult').innerHTML=reportSummary(d.type,d.from,d.to);window.print()}
+function printReport(){
+ const d=reportData();if(!d)return;
+ const totals=reportTotals(d);
+ const rootId='rpdPrintRoot';
+ let root=document.getElementById(rootId);
+ if(!root){root=document.createElement('div');root.id=rootId;document.body.appendChild(root)}
+ const escHtml=v=>esc(String(v??''));
+ const fmt=v=>'RM '+Number(v||0).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
+ const transactions=d.arr.slice().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
+ const categoryHtml=totals.categories.map(([name,value])=>`<div class="rp-category"><span>${escHtml(name)}</span><strong>${fmt(value)}</strong></div>`).join('')||'<p class="rp-muted">No expenses in this period.</p>';
+ const header=(continued=false)=>`<header class="rp-letterhead"><img src="rpd-letterhead-logo.png" alt="Official Rumah Penjagaan Damai letterhead logo"><div><h1>RUMAH PENJAGAAN DAMAI</h1><p>( SA0055892-M )</p><p>LOT 3294, LORONG HAJI ABU BAKAR, KAMPUNG JALAN KEBUN, SEKSYEN 30, 40460, SHAH ALAM, SELANGOR DARUL EHSAN.</p><p>E-mail: rumahpenjagaandamai@gmail.com</p></div></header>${continued?'<h2 class="rp-continued">Financial Report — Continued</h2>':''}`;
+ const table=(rows)=>`<table class="rp-table"><colgroup><col style="width:14%"><col style="width:13%"><col style="width:31%"><col style="width:25%"><col style="width:17%"></colgroup><thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Category</th><th class="num">Amount (RM)</th></tr></thead><tbody>${rows.map(t=>`<tr><td>${escHtml(t.date)}</td><td>${t.type==='in'?'Cash In':'Cash Out'}</td><td>${escHtml(t.details||'')}</td><td>${escHtml(categoryObj(t.categoryId,t.type)?.name||t.categoryName||'')}</td><td class="num">${Number(t.amount||0).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2})}</td></tr>`).join('')||'<tr><td colspan="5">No transactions in this period.</td></tr>'}</tbody></table>`;
+ // Estimate row height so page 1 has room for its summary and subsequent pages repeat the approved letterhead.
+ const rowUnits=t=>{const desc=String(t.details||'').length,cat=String(categoryObj(t.categoryId,t.type)?.name||t.categoryName||'').length;return 1+Math.max(0,Math.ceil(desc/42)-1,Math.ceil(cat/22)-1)*0.55};
+ const pages=[];let current=[],used=0,limit=15;
+ transactions.forEach(t=>{const h=rowUnits(t);if(current.length && used+h>limit){pages.push(current);current=[];used=0;limit=25}current.push(t);used+=h});
+ if(current.length||!pages.length)pages.push(current);
+ root.innerHTML=pages.map((rows,index)=>`<section class="rp-page">${header(index>0)}${index===0?`<section class="rp-summary"><h2>Financial Report</h2><p>RPD Hub · ${d.type.toUpperCase()} · ${d.from} to ${d.to}</p><div class="rp-metrics"><div><span>Cash In</span><b>${fmt(totals.inc)}</b></div><div><span>Cash Out</span><b>${fmt(totals.out)}</b></div><div><span>Net</span><b>${fmt(totals.net)}</b></div></div><p class="rp-period">Period: ${d.from} to ${d.to} · Opening balance is excluded from income and Profit & Loss.</p><h3>Expense breakdown</h3>${categoryHtml}<h3 class="rp-transactions-title">Transaction details</h3></section>`:`<h3 class="rp-transactions-title">Transaction details</h3>`}${table(rows)}</section>`).join('');
+ document.body.classList.add('rpd-print-mode');
+ const cleanup=()=>{document.body.classList.remove('rpd-print-mode');window.removeEventListener('afterprint',cleanup)};
+ window.addEventListener('afterprint',cleanup,{once:true});
+ window.print();
+ setTimeout(()=>{if(document.body.classList.contains('rpd-print-mode'))cleanup()},1500);
+}
 function trashPage(){return `${header("Trash","Restore soft-deleted transactions. They are excluded from all financial totals.")}<div class="panel">${state.trash.length?`<div class="tablewrap"><table><tr><th>Date</th><th>Description</th><th>Amount</th><th>Action</th></tr>${state.trash.map(t=>`<tr><td>${t.date}</td><td>${esc(t.details)}</td><td>${money(t.amount)}</td><td><button class="btn sm primary" onclick="restoreTx('${t.id}')">Restore</button></td></tr>`).join("")}</table></div>`:`<div class="empty">Trash is empty.</div>`}</div>`}
 function restoreTx(id){let t=state.trash.find(x=>x.id===id);if(!t)return;state.trash=state.trash.filter(x=>x.id!==id);delete t.deletedAt;state.transactions.unshift(t);log("TRANSACTION_RESTORED",id,t.details);render()}
 function auditPage(){return `${header("Audit Trail","Protected activity history. Corrections are recorded rather than erasing history.")}<div class="panel"><div class="tablewrap"><table><tr><th>Date / Time</th><th>User</th><th>Action</th><th>Record</th><th>Details</th></tr>${state.audit.map(a=>`<tr><td>${new Date(a.at).toLocaleString("en-MY")}</td><td>${esc(a.user)}</td><td>${esc(a.action)}</td><td>${esc(a.record)}</td><td>${esc(a.details)}</td></tr>`).join("")||`<tr><td colspan="5" class="empty">No activity yet.</td></tr>`}</table></div></div>`}
