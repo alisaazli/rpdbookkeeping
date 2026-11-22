@@ -49,6 +49,6 @@ Do not enter real resident personal information, diagnosis/medical information, 
 - Browser storage can be lost if site data is cleared or the browser/device is changed. Export backups regularly.
 
 
-BUILD 0.4.8 ASSET NOTE
+BUILD 0.4.9 ASSET NOTE
 - `rpd-logo-approved.jpeg`, `icon-192.png`, and `icon-512.png` are the approved RPD Hub app icon assets.
 - `rpd-letterhead-logo.png` is the separate official Rumah Penjagaan Damai letterhead logo used in Reports preview, PDF, and Print.

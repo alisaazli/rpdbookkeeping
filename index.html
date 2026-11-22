@@ -98,12 +98,40 @@
 }
 
 
+/* Build 0.4.9: print must override the mobile card layout declared above. */
+@media print{
+ @page{size:A4;margin:42mm 12mm 14mm}
+ html,body{background:#fff!important;color:#111!important}
+ .rpd-letterhead{position:fixed!important;top:0!important;left:0!important;right:0!important;width:100%!important;max-width:100%!important;margin:0!important;padding:0 0 4mm!important;gap:12px!important;background:#fff!important;border-bottom:1.5px solid #2878C8!important;break-inside:avoid!important;z-index:999!important}
+ .rpd-letterhead img{width:22mm!important;height:22mm!important;max-width:22mm!important;flex:0 0 22mm!important;object-fit:contain!important}
+ .rpd-letterhead>div{min-width:0!important}
+ .rpd-letterhead h1{font-size:13pt!important;color:#2878C8!important}
+ .rpd-letterhead .reg,.rpd-letterhead .address,.rpd-letterhead .email{font-size:7.5pt!important;line-height:1.35!important;color:#111!important}
+ .report-heading{break-after:avoid!important}
+ .report-document,.report-document *{color:#111!important;text-shadow:none!important}
+ .report-document{background:#fff!important}
+ .report-document .metric{background:#fff!important;color:#111!important;border:1px solid #bbb!important;box-shadow:none!important}
+ .report-document .metric .label,.report-document .metric .value,.report-document .metric .hint{color:#111!important}
+ .report-table{overflow:visible!important;background:#fff!important}
+ .report-table table{display:table!important;width:100%!important;min-width:0!important;border-collapse:collapse!important;table-layout:fixed!important;white-space:normal!important;font-size:7.5pt!important;background:#fff!important}
+ .report-table thead{display:table-header-group!important}
+ .report-table tbody{display:table-row-group!important}
+ .report-table tr{display:table-row!important;background:#fff!important;border:0!important;border-radius:0!important;padding:0!important;margin:0!important;break-inside:avoid!important;page-break-inside:avoid!important}
+ .report-table th,.report-table td{display:table-cell!important;width:auto!important;padding:2mm 1.5mm!important;border-bottom:1px solid #ccc!important;white-space:normal!important;overflow-wrap:anywhere!important;vertical-align:top!important;background:#fff!important;color:#111!important;text-align:left!important}
+ .report-table th{background:#1C3550!important;color:#fff!important;font-size:7pt!important}
+ .report-table td:before{display:none!important;content:none!important}
+ .report-table td.amount{text-align:right!important;font-variant-numeric:tabular-nums!important}
+ .report-transactions-title{break-after:avoid!important;page-break-after:avoid!important}
+ .bartrack{background:#eee!important}.barfill{background:#2878C8!important}
+}
+
+
 .diagnostic-json{white-space:pre-wrap;overflow-wrap:anywhere;max-height:48vh;overflow:auto;background:var(--surface-2,var(--surface));border:1px solid var(--line);border-radius:10px;padding:12px;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink)}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="brand"><div class="brandmark"><img src="rpd-logo-approved.jpeg" alt="RPD Hub app icon"></div><div><h1>RPD Hub</h1><p>RPD MANAGEMENT SYSTEM</p></div></div><div class="top-actions"><span class="smalltext" style="color:#D7E5F2">BUILD 0.4.8 · PROTOTYPE</span><button class="btn" id="themeBtn">◐ <span>Theme</span></button><button class="btn" id="backupBtn">⇩ <span>Backup</span></button></div></header>
+<header class="topbar"><div class="brand"><div class="brandmark"><img src="rpd-logo-approved.jpeg" alt="RPD Hub app icon"></div><div><h1>RPD Hub</h1><p>RPD MANAGEMENT SYSTEM</p></div></div><div class="top-actions"><span class="smalltext" style="color:#D7E5F2">BUILD 0.4.9 · PROTOTYPE</span><button class="btn" id="themeBtn">◐ <span>Theme</span></button><button class="btn" id="backupBtn">⇩ <span>Backup</span></button></div></header>
 <div class="layout">
 <aside><div class="nav-label">WORKSPACE</div><button class="navbtn active" data-page="dashboard"><span class="ico">▦</span>Dashboard</button><button class="navbtn" data-page="add"><span class="ico">＋</span>Add Transaction</button><button class="navbtn" data-page="history"><span class="ico">▤</span>Transaction History</button><button class="navbtn" data-page="approvals"><span class="ico">◷</span>Approvals <span id="approvalCount" class="badgecount"></span></button><button class="navbtn" data-page="drafts"><span class="ico">▧</span>Drafts</button><div class="nav-label">RESIDENT MANAGEMENT</div><button class="navbtn" data-page="residents"><span class="ico">♙</span>Residents</button><button class="navbtn" data-page="admissions"><span class="ico">▣</span>Admissions</button><div class="nav-label">MANAGEMENT</div><button class="navbtn" data-page="categories"><span class="ico">◇</span>Categories</button><button class="navbtn" data-page="rules"><span class="ico">⌁</span>Learning Rules</button><button class="navbtn" data-page="reports"><span class="ico">▥</span>Reports</button><button class="navbtn" data-page="trash"><span class="ico">♲</span>Trash</button><button class="navbtn" data-page="audit"><span class="ico">≡</span>Audit Trail</button><button class="navbtn" data-page="settings"><span class="ico">⚙</span>Settings</button></aside>
 <main id="main"></main>
@@ -388,7 +416,7 @@ function exportReportPDF(){
    const desc=doc.splitTextToSize(String(t.details||''),54),cat=doc.splitTextToSize(String(categoryObj(t.categoryId,t.type)?.name||t.categoryName||''),43);
    const lines=Math.max(desc.length,cat.length,1),h=lines*4.1+3;
    if(y+h>pageBottom){newPage();drawTableHead();doc.setTextColor(20,20,20);doc.setFont('helvetica','normal');doc.setFontSize(8)}
-   doc.text(String(t.date||''),16,y);doc.text(t.type==='in'?'Cash In':'Cash Out',36,y);doc.text(desc,57,y);doc.text(cat,116,y);doc.text(Number(t.amount||0).toFixed(2),194,y,{align:'right'});
+   doc.text(String(t.date||''),16,y);doc.text(t.type==='in'?'Cash In':'Cash Out',36,y);doc.text(desc,57,y);doc.text(cat,116,y);doc.text(Number(t.amount||0).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2}),194,y,{align:'right'});
    y+=h;doc.setDrawColor(220);doc.line(left,y-2,right,y-2);
   });
   doc.save('RPD_Report_'+d.from+'_to_'+d.to+'.pdf');

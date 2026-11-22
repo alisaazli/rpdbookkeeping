@@ -40,3 +40,10 @@
 - Improved iPhone report controls, metrics and transaction layout.
 - PDF now repeats the official letterhead and transaction table headings across pages.
 - Preserved the existing localStorage key and bumped the service-worker cache to `rpd-hub-048`.
+
+## Build 0.4.9
+- Corrected print stylesheet specificity so mobile transaction cards cannot leak into print output.
+- Restored high-contrast tabular transaction layout, repeating column headers, and page-break-safe rows.
+- Repeated official RPD letterhead on printed pages; retained the supplied approved logo files unchanged.
+- Added thousands separators to PDF transaction amounts.
+- Updated service-worker cache and PWA version; preserved application data key and workflows.

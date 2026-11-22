@@ -1,0 +1,24 @@
+RPD HUB — BUILD 0.4.9 NOTES
+
+Based on the user-supplied Build 0.4.8 ZIP. Focused Reports print correction only.
+
+Changes in 0.4.9:
+- Fixed print CSS cascade: mobile report cards no longer override the print table layout.
+- Print transaction details now render as a readable white table with dark text and a high-contrast table header.
+- Removed mobile-only per-cell labels and card borders from printed output.
+- Added repeating table column headings and keep-rows-together pagination rules for multi-page printouts.
+- Repeated the official RPD letterhead at the top of each printed page, with reserved top-page space to prevent overlap.
+- Kept the exact approved RPD Hub app icon and official letterhead assets unchanged.
+- Standardised PDF transaction amount grouping (e.g. 3,841.00); spreadsheet and CSV numeric data remain numeric/export-friendly.
+- Bumped service-worker cache and PWA start URL to 0.4.9.
+- Preserved localStorage key rpd_bookkeeping_v2 and all existing workflows/data structures.
+
+Testing:
+- Static source checks confirm print overrides occur after mobile report CSS.
+- Confirmed the print stylesheet explicitly restores table/table-row/table-cell display and repeating table headers.
+- Full on-device iOS print preview still requires user verification after deployment.
+
+Deployment:
+- Upload the complete ZIP contents together. Keep all existing image assets in place.
+- Do not clear site data; existing local browser test records remain under the same storage key.
+- This remains a local-browser prototype; Supabase is not connected. Do not enter real resident, medical or live financial data.
