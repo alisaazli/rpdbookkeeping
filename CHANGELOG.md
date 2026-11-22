@@ -31,3 +31,12 @@
 - Resident Profile discharge action.
 - 30-day discharge refund calculation.
 - Expanded CSV, Excel, PDF, and print reporting.
+
+## Build 0.4.8 — Reports and official letterhead correction
+
+- Separated the exact RPD Hub app icon from the official letterhead logo.
+- Reports preview, PDF and Print use the user-supplied official letterhead logo and only the approved company details.
+- Fixed mobile Reports overflow caused by the letterhead image rendering at its natural dimensions.
+- Improved iPhone report controls, metrics and transaction layout.
+- PDF now repeats the official letterhead and transaction table headings across pages.
+- Preserved the existing localStorage key and bumped the service-worker cache to `rpd-hub-048`.

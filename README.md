@@ -47,3 +47,8 @@ Do not enter real resident personal information, diagnosis/medical information, 
 - Prototype role selector is not a security boundary.
 - No production authentication, authorization, Supabase schema, secure document storage, or server-side audit controls are provided by this ZIP.
 - Browser storage can be lost if site data is cleared or the browser/device is changed. Export backups regularly.
+
+
+BUILD 0.4.8 ASSET NOTE
+- `rpd-logo-approved.jpeg`, `icon-192.png`, and `icon-512.png` are the approved RPD Hub app icon assets.
+- `rpd-letterhead-logo.png` is the separate official Rumah Penjagaan Damai letterhead logo used in Reports preview, PDF, and Print.

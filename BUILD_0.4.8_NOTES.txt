@@ -1,0 +1,20 @@
+RPD HUB — BUILD 0.4.8 NOTES
+
+Based on the user-supplied Build 0.4.7 ZIP. This is a focused Reports, letterhead and responsive-layout correction. Existing application workflows and localStorage key are preserved.
+
+Changes in 0.4.8:
+- Kept the approved RPD Hub app icon exclusively for app branding, PWA icons and the app header.
+- Added the exact user-supplied official RPD letterhead logo as a separate asset: rpd-letterhead-logo.png.
+- Reports on-screen preview, PDF and Print now use the official letterhead logo, not the app icon.
+- Letterhead includes only the approved company name, registration number, full address and email address.
+- Corrected the Reports preview layout so the letterhead logo cannot expand to its natural image dimensions and force the page to zoom/overflow on iPhone.
+- Improved mobile report filters, export controls, metric cards and transaction details layout.
+- Reworked PDF pagination so the official letterhead is repeated on every page and the transaction table header repeats after page breaks.
+- Print output is limited to the report content and uses A4-friendly sizing.
+- Bumped service-worker cache to rpd-hub-048 and included the letterhead asset in the precache.
+- Preserved localStorage key rpd_bookkeeping_v2; no browser data reset or migration is performed.
+
+Important:
+- This remains a local-browser prototype. Supabase is not connected. Do not enter real resident, medical or live financial data.
+- Deploy the complete ZIP contents together. Do not upload only index.html: the new rpd-letterhead-logo.png asset is required.
+- Do not clear site data. The existing local browser test records should remain under the same storage key.

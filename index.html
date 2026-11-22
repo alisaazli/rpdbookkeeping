@@ -17,18 +17,49 @@
 @media(max-width:900px){.layout{grid-template-columns:1fr}aside{display:none}main{padding:18px}.mobilebar{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--line);z-index:8;justify-content:space-around;padding:6px 2px calc(6px + env(safe-area-inset-bottom))}.mobilebar .navbtn{width:auto;display:flex;flex-direction:column;gap:1px;padding:5px 7px;margin:0;font-size:9px}.mobilebar .navbtn .ico{font-size:18px}.app{padding-bottom:70px}.topbar{padding:10px 15px;height:64px}.top-actions .btn span{display:none}}
 @media(max-width:600px){#historyTable .tablewrap table,#historyTable .tablewrap tbody,#historyTable .tablewrap tr,#historyTable .tablewrap td{display:block;width:100%;white-space:normal}#historyTable .tablewrap thead{display:none}#historyTable .tablewrap tr{border:1px solid var(--line);border-radius:10px;margin:0 0 10px;padding:8px;background:var(--surface2)}#historyTable .tablewrap td{border:0;padding:4px 2px;overflow-wrap:anywhere}#historyTable .tablewrap td.amount{text-align:left}#historyTable .tablewrap td:last-child .actions{flex-wrap:wrap}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.metric{padding:12px}.metric .value{font-size:18px}.split,.grid2{grid-template-columns:1fr}.pagehead h2{font-size:21px}.panel{padding:14px}.brand h1{font-size:14px}.brand p{font-size:9px}.topbar .btn{padding:8px}.toolbar>*{min-width:110px}}
 
-.report-filters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.report-filters .field{margin:0}.generate-btn{min-width:190px;margin-top:12px}.report-export{border-top:1px solid var(--line);margin-top:18px;padding-top:16px}.report-export .actions{gap:10px}.report-export .btn{min-width:95px;justify-content:center}.report-heading{margin:8px 0 14px}.report-heading h2{margin:0;font-size:19px}.report-heading p{margin:3px 0;color:var(--muted)}.report-transactions-title{margin-top:22px!important}.report-table table{white-space:normal}.report-table td{vertical-align:top;overflow-wrap:anywhere}
-@media(max-width:600px){.report-filters{grid-template-columns:minmax(0,1fr)}.report-filters .field,.report-filters .field input,.report-filters .field select{width:100%;max-width:100%;min-width:0}.report-filters input[type=date]{display:block;box-sizing:border-box;width:100%;max-width:100%;min-width:0;padding:10px 8px;font-size:14px}.generate-btn{width:100%;justify-content:center}.report-export .actions .btn{flex:1}.report-table{overflow-x:auto}.report-table table{min-width:650px}}
+.report-panel,#reportResult,.report-document{width:100%;max-width:100%;min-width:0}
+.report-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.report-filters .field{margin:0;min-width:0}
+.generate-btn{min-width:190px;margin-top:12px}
+.report-export{border-top:1px solid var(--line);margin-top:18px;padding-top:16px}
+.report-export .actions{display:flex;gap:10px;flex-wrap:wrap}.report-export .btn{min-width:95px;justify-content:center}
+.report-heading{margin:8px 0 14px}.report-heading h2{margin:0;font-size:19px}.report-heading p{margin:3px 0;color:var(--muted)}
+.rpd-letterhead{display:flex;align-items:center;gap:16px;width:100%;max-width:100%;min-width:0;margin:0 0 22px;padding:0 0 14px;border-bottom:1px solid var(--line)}
+.rpd-letterhead img{display:block;width:92px;height:92px;max-width:25%;flex:0 0 92px;object-fit:contain;background:#fff;border-radius:4px}
+.rpd-letterhead>div{flex:1;min-width:0;overflow-wrap:anywhere}
+.rpd-letterhead h1{margin:0 0 3px;font-size:20px;line-height:1.2;color:#2878C8;overflow-wrap:anywhere}
+.rpd-letterhead .reg,.rpd-letterhead .address,.rpd-letterhead .email{font-size:12px;line-height:1.45;color:var(--ink);overflow-wrap:anywhere}
+.report-metrics{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.report-metrics .metric{min-width:0}.report-metrics .metric .value{overflow-wrap:anywhere}
+.report-transactions-title{margin-top:22px!important}.report-table table{white-space:normal}.report-table td{vertical-align:top;overflow-wrap:anywhere}
+@media(max-width:600px){
+ .report-filters{grid-template-columns:minmax(0,1fr)}
+ .report-filters .field,.report-filters .field input,.report-filters .field select{width:100%;max-width:100%;min-width:0}
+ .report-filters input[type=date]{display:block;box-sizing:border-box;width:100%;max-width:100%;min-width:0;padding:10px 8px;font-size:14px}
+ .generate-btn{width:100%;justify-content:center}
+ .report-export .actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .report-export .actions .btn{width:100%;min-width:0;justify-content:center}
+ .rpd-letterhead{gap:10px;align-items:flex-start;margin-bottom:16px;padding-bottom:12px}
+ .rpd-letterhead img{width:76px;height:76px;max-width:24%;flex-basis:76px}
+ .rpd-letterhead h1{font-size:15px}
+ .rpd-letterhead .reg,.rpd-letterhead .address,.rpd-letterhead .email{font-size:10px}
+ .report-metrics{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+ .report-metrics .metric{padding:9px}
+ .report-metrics .metric .label{font-size:10px}
+ .report-metrics .metric .value{font-size:15px}
+ .report-metrics .metric .hint{font-size:9px}
+ .report-table{overflow:visible}
+ .report-table table{min-width:0}
+}
 @media print{
  @page{size:A4;margin:12mm}
  html,body{background:#fff!important;color:#111!important;font-size:10pt!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
  body *{visibility:hidden!important}
- #main,#reportResult,#reportResult *{visibility:visible!important}
+ #main,#main *{visibility:visible!important}
  #main{position:absolute!important;left:0!important;top:0!important;width:100%!important;padding:0!important;margin:0!important}
  .topbar,aside,.mobilebar,.pagehead,.report-controls,.report-export,.footer,.modalback{display:none!important}
- .report-panel,.report-document{position:static!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important;background:#fff!important;color:#111!important;border-radius:0!important}
+ .report-panel,.report-document,#reportResult{position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important;background:#fff!important;color:#111!important;border-radius:0!important}
  .rpd-letterhead{display:flex!important;gap:14px!important;margin:0 0 9mm!important;padding:0 0 5mm!important;border-bottom:1.5px solid #2878C8!important;break-inside:avoid}
- .rpd-letterhead img{width:25mm!important;height:25mm!important;flex-basis:25mm!important}
+ .rpd-letterhead img{width:25mm!important;height:25mm!important;max-width:25mm!important;flex-basis:25mm!important;object-fit:contain!important}
  .rpd-letterhead h1{font-size:15pt!important;color:#2878C8!important}
  .rpd-letterhead .reg,.rpd-letterhead .address,.rpd-letterhead .email{font-size:8pt!important;color:#111!important}
  .report-heading h2,.report-heading p,.report-document h3,.report-document p,.report-document td,.report-document th,.metric .label,.metric .value{color:#111!important}
@@ -72,7 +103,7 @@
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="brand"><div class="brandmark"><img src="rpd-logo-approved.jpeg" alt="RPD Hub official logo"></div><div><h1>RPD Hub</h1><p>RPD MANAGEMENT SYSTEM</p></div></div><div class="top-actions"><span class="smalltext" style="color:#D7E5F2">BUILD 0.4.7 · PROTOTYPE</span><button class="btn" id="themeBtn">◐ <span>Theme</span></button><button class="btn" id="backupBtn">⇩ <span>Backup</span></button></div></header>
+<header class="topbar"><div class="brand"><div class="brandmark"><img src="rpd-logo-approved.jpeg" alt="RPD Hub app icon"></div><div><h1>RPD Hub</h1><p>RPD MANAGEMENT SYSTEM</p></div></div><div class="top-actions"><span class="smalltext" style="color:#D7E5F2">BUILD 0.4.8 · PROTOTYPE</span><button class="btn" id="themeBtn">◐ <span>Theme</span></button><button class="btn" id="backupBtn">⇩ <span>Backup</span></button></div></header>
 <div class="layout">
 <aside><div class="nav-label">WORKSPACE</div><button class="navbtn active" data-page="dashboard"><span class="ico">▦</span>Dashboard</button><button class="navbtn" data-page="add"><span class="ico">＋</span>Add Transaction</button><button class="navbtn" data-page="history"><span class="ico">▤</span>Transaction History</button><button class="navbtn" data-page="approvals"><span class="ico">◷</span>Approvals <span id="approvalCount" class="badgecount"></span></button><button class="navbtn" data-page="drafts"><span class="ico">▧</span>Drafts</button><div class="nav-label">RESIDENT MANAGEMENT</div><button class="navbtn" data-page="residents"><span class="ico">♙</span>Residents</button><button class="navbtn" data-page="admissions"><span class="ico">▣</span>Admissions</button><div class="nav-label">MANAGEMENT</div><button class="navbtn" data-page="categories"><span class="ico">◇</span>Categories</button><button class="navbtn" data-page="rules"><span class="ico">⌁</span>Learning Rules</button><button class="navbtn" data-page="reports"><span class="ico">▥</span>Reports</button><button class="navbtn" data-page="trash"><span class="ico">♲</span>Trash</button><button class="navbtn" data-page="audit"><span class="ico">≡</span>Audit Trail</button><button class="navbtn" data-page="settings"><span class="ico">⚙</span>Settings</button></aside>
 <main id="main"></main>
@@ -307,12 +338,62 @@ function reportsPage(){return `${header("Reports","Summary reports with category
   <div id="reportResult">${reportSummary("all",monthNow()+"-01",today())}</div>
 </div>`}
 function reportData(){let from=document.getElementById("dateFrom").value,to=document.getElementById("dateTo").value,type=document.getElementById("reportType").value;if(!from||!to||from>to){alert("Please choose a valid date range.");return null}let arr=visiblePosted().filter(t=>t.date>=from&&t.date<=to);if(type==="in"||type==="out")arr=arr.filter(t=>t.type===type);return {from,to,type,arr}}
-function reportSummary(type,from,to){let arr=visiblePosted().filter(t=>t.date>=from&&t.date<=to);if(type==="in"||type==="out")arr=arr.filter(t=>t.type===type);let inc=arr.filter(t=>t.type==="in").reduce((s,t)=>s+t.amount,0),out=arr.filter(t=>t.type==="out").reduce((s,t)=>s+t.amount,0),by={};arr.filter(t=>t.type==="out").forEach(t=>{let n=categoryObj(t.categoryId,"out")?.name||t.categoryName||"Uncategorised";by[n]=(by[n]||0)+t.amount});let categoryRows=Object.entries(by).sort((a,b)=>b[1]-a[1]);return `<div class="report-document"><div class="rpd-letterhead"><img src="rpd-logo-approved.jpeg" alt="Rumah Penjagaan Damai logo"><div><h1>RUMAH PENJAGAAN DAMAI</h1><div class="reg">( SA0055892-M )</div><div class="address">LOT 3294, LORONG HAJI ABU BAKAR, KAMPUNG JALAN KEBUN,<br>SEKSYEN 30, 40460, SHAH ALAM, SELANGOR DARUL EHSAN.</div><div class="email">E-mail: rumahpenjagaandamai@gmail.com</div></div></div><div class="report-heading"><h2>Financial Report</h2><p>RPD Hub · ${from} to ${to}</p></div><div class="cards report-metrics" style="grid-template-columns:repeat(3,minmax(0,1fr))">${metric("Cash In",money(inc),"↗","Selected period")}${metric("Cash Out",money(out),"↘","Selected period")}${metric("Net",money(inc-out),"＝","Cash In − Cash Out")}</div><p class="smalltext">Period: ${from} to ${to} · Opening balance is excluded from income and Profit & Loss.</p><h3>Expense breakdown</h3>${categoryRows.map(([n,v])=>`<div class="barrow"><div class="barlabel"><span>${esc(n)}</span><b>${money(v)}</b></div><div class="bartrack"><div class="barfill" style="width:${out?Math.max(0,Math.min(100,v/out*100)):0}%"></div></div></div>`).join("")||"No expenses in this period."}<h3 class="report-transactions-title">Transaction details</h3><div class="tablewrap report-table"><table><thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Category</th><th>Amount (RM)</th></tr></thead><tbody>${arr.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(t=>`<tr><td>${esc(t.date)}</td><td>${t.type==="in"?"Cash In":"Cash Out"}</td><td>${esc(t.details||"")}</td><td>${esc(categoryObj(t.categoryId,t.type)?.name||t.categoryName||"")}</td><td class="amount">${Number(t.amount||0).toFixed(2)}</td></tr>`).join("")||`<tr><td colspan="5">No transactions in this period.</td></tr>`}</tbody></table></div></div>`}
+function reportSummary(type,from,to){let arr=visiblePosted().filter(t=>t.date>=from&&t.date<=to);if(type==="in"||type==="out")arr=arr.filter(t=>t.type===type);let inc=arr.filter(t=>t.type==="in").reduce((s,t)=>s+t.amount,0),out=arr.filter(t=>t.type==="out").reduce((s,t)=>s+t.amount,0),by={};arr.filter(t=>t.type==="out").forEach(t=>{let n=categoryObj(t.categoryId,"out")?.name||t.categoryName||"Uncategorised";by[n]=(by[n]||0)+t.amount});let categoryRows=Object.entries(by).sort((a,b)=>b[1]-a[1]);return `<div class="report-document"><div class="rpd-letterhead"><img src="rpd-letterhead-logo.png" alt="Official Rumah Penjagaan Damai letterhead logo"><div><h1>RUMAH PENJAGAAN DAMAI</h1><div class="reg">( SA0055892-M )</div><div class="address">LOT 3294, LORONG HAJI ABU BAKAR, KAMPUNG JALAN KEBUN,<br>SEKSYEN 30, 40460, SHAH ALAM, SELANGOR DARUL EHSAN.</div><div class="email">E-mail: rumahpenjagaandamai@gmail.com</div></div></div><div class="report-heading"><h2>Financial Report</h2><p>RPD Hub · ${from} to ${to}</p></div><div class="cards report-metrics" style="grid-template-columns:repeat(3,minmax(0,1fr))">${metric("Cash In",money(inc),"↗","Selected period")}${metric("Cash Out",money(out),"↘","Selected period")}${metric("Net",money(inc-out),"＝","Cash In − Cash Out")}</div><p class="smalltext">Period: ${from} to ${to} · Opening balance is excluded from income and Profit & Loss.</p><h3>Expense breakdown</h3>${categoryRows.map(([n,v])=>`<div class="barrow"><div class="barlabel"><span>${esc(n)}</span><b>${money(v)}</b></div><div class="bartrack"><div class="barfill" style="width:${out?Math.max(0,Math.min(100,v/out*100)):0}%"></div></div></div>`).join("")||"No expenses in this period."}<h3 class="report-transactions-title">Transaction details</h3><div class="tablewrap report-table"><table><thead><tr><th>Date</th><th>Type</th><th>Description</th><th>Category</th><th>Amount (RM)</th></tr></thead><tbody>${arr.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(t=>`<tr><td>${esc(t.date)}</td><td>${t.type==="in"?"Cash In":"Cash Out"}</td><td>${esc(t.details||"")}</td><td>${esc(categoryObj(t.categoryId,t.type)?.name||t.categoryName||"")}</td><td class="amount">${Number(t.amount||0).toFixed(2)}</td></tr>`).join("")||`<tr><td colspan="5">No transactions in this period.</td></tr>`}</tbody></table></div></div>`}
 function renderReport(){let d=reportData();if(!d)return;document.getElementById("reportResult").innerHTML=reportSummary(d.type,d.from,d.to)}
 function reportTotals(d){let inc=d.arr.filter(t=>t.type==='in').reduce((s,t)=>s+Number(t.amount||0),0),out=d.arr.filter(t=>t.type==='out').reduce((s,t)=>s+Number(t.amount||0),0),by={};d.arr.filter(t=>t.type==='out').forEach(t=>{let n=categoryObj(t.categoryId,'out')?.name||t.categoryName||'Uncategorised';by[n]=(by[n]||0)+Number(t.amount||0)});return {inc,out,net:inc-out,categories:Object.entries(by).sort((a,b)=>b[1]-a[1])}}
 function exportReportCSV(){let d=reportData();if(!d)return;let z=reportTotals(d),rows=[['Rumah Penjagaan Damai','RPD Hub Report',d.type.toUpperCase()],['Period',d.from,d.to],[],['SUMMARY','Amount (RM)'],['Cash In',z.inc.toFixed(2)],['Cash Out',z.out.toFixed(2)],['Net',z.net.toFixed(2)],[],['EXPENSE BREAKDOWN','Amount (RM)'],...z.categories.map(([n,v])=>[n,v.toFixed(2)]),[],['TRANSACTION DETAILS'],['Date','Type','Description','Category','Amount (RM)'],...d.arr.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(t=>[t.date,t.type==='in'?'Cash In':'Cash Out',t.details,categoryObj(t.categoryId,t.type)?.name||t.categoryName||'',Number(t.amount||0).toFixed(2)])];download(new Blob(['\uFEFF'+rows.map(r=>r.map(x=>'"'+String(x??'').replace(/"/g,'""')+'"').join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}),'RPD_Report_'+d.from+'_to_'+d.to+'.csv')}
 function exportReportXLSX(){let d=reportData();if(!d)return;if(!window.XLSX)return alert('Excel export library unavailable. Use CSV instead.');let z=reportTotals(d),wb=XLSX.utils.book_new();let summary=[['Rumah Penjagaan Damai'],['RPD Hub Financial Report'],['Report type',d.type.toUpperCase()],['Period',d.from+' to '+d.to],[],['Metric','Amount (RM)'],['Cash In',z.inc],['Cash Out',z.out],['Net',z.net]];let ws1=XLSX.utils.aoa_to_sheet(summary);ws1['!cols']=[{wch:26},{wch:22}];XLSX.utils.book_append_sheet(wb,ws1,'Summary');let cat=[['Expense Category','Amount (RM)'],...z.categories.map(([name,value])=>[name,value])];let ws2=XLSX.utils.aoa_to_sheet(cat);ws2['!cols']=[{wch:32},{wch:18}];XLSX.utils.book_append_sheet(wb,ws2,'Expense Breakdown');let trans=[['Date','Type','Description','Category','Amount (RM)'],...d.arr.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(t=>[t.date,t.type==='in'?'Cash In':'Cash Out',t.details||'',categoryObj(t.categoryId,t.type)?.name||t.categoryName||'',Number(t.amount||0)])];let ws3=XLSX.utils.aoa_to_sheet(trans);ws3['!cols']=[{wch:14},{wch:14},{wch:42},{wch:28},{wch:16}];XLSX.utils.book_append_sheet(wb,ws3,'Transactions');XLSX.writeFile(wb,'RPD_Report_'+d.from+'_to_'+d.to+'.xlsx')}
-function exportReportPDF(){let d=reportData();if(!d)return;if(!window.jspdf)return alert('PDF library unavailable. Check internet connection.');let z=reportTotals(d),doc=new jspdf.jsPDF({unit:'mm',format:'a4'}),y=14,left=14,right=196;const ensure=h=>{if(y+h>282){doc.addPage();y=14}};const drawHeader=()=>{doc.setTextColor(40,120,200);doc.setFont('helvetica','bold');doc.setFontSize(15);doc.text('RUMAH PENJAGAAN DAMAI',45,y+5);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text('( SA0055892-M )',45,y+10);doc.setTextColor(25,35,48);doc.text('LOT 3294, LORONG HAJI ABU BAKAR, KAMPUNG JALAN KEBUN,',45,y+15);doc.text('SEKSYEN 30, 40460, SHAH ALAM, SELANGOR DARUL EHSAN.',45,y+19);doc.text('E-mail: rumahpenjagaandamai@gmail.com',45,y+23);doc.setDrawColor(40,120,200);doc.setLineWidth(.6);doc.line(left,y+29,right,y+29);y+=37};const drawLogo=()=>new Promise(resolve=>{let img=new Image();img.onload=()=>{try{doc.addImage(img,'JPEG',left,y-2,25,25)}catch(e){}resolve()};img.onerror=resolve;img.src='rpd-logo-approved.jpeg'});drawLogo().then(()=>{drawHeader();doc.setTextColor(20,30,45);doc.setFont('helvetica','bold');doc.setFontSize(15);doc.text('Financial Report',left,y);y+=7;doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text('RPD Hub | '+d.type.toUpperCase()+' | '+d.from+' to '+d.to,left,y);y+=10;[['Cash In','RM '+z.inc.toFixed(2)],['Cash Out','RM '+z.out.toFixed(2)],['Net','RM '+z.net.toFixed(2)]].forEach((v,i)=>{let x=left+i*62;doc.setDrawColor(190);doc.roundedRect(x,y-5,57,17,2,2,'S');doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text(v[0],x+4,y);doc.setFontSize(11);doc.text(v[1],x+4,y+7)});y+=22;doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('Expense breakdown',left,y);y+=7;doc.setFont('helvetica','normal');doc.setFontSize(9);if(z.categories.length){z.categories.forEach(([name,value])=>{ensure(7);doc.text(String(name).slice(0,65),left,y);doc.text('RM '+value.toFixed(2),right,y,{align:'right'});y+=5.5})}else{doc.text('No expenses in this period.',left,y);y+=6}y+=5;ensure(15);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('Transaction details',left,y);y+=8;const cols=[14,39,62,132,190];doc.setFillColor(28,53,80);doc.rect(left,y-5,182,8,'F');doc.setTextColor(255,255,255);doc.setFontSize(7.5);doc.text('DATE',cols[0]+2,y);doc.text('TYPE',cols[1],y);doc.text('DESCRIPTION',cols[2],y);doc.text('CATEGORY',cols[3],y);doc.text('AMOUNT (RM)',cols[4],y,{align:'right'});y+=7;doc.setTextColor(20,20,20);doc.setFont('helvetica','normal');doc.setFontSize(8.5);let sorted=d.arr.slice().sort((a,b)=>a.date.localeCompare(b.date));if(!sorted.length)doc.text('No transactions in this period.',left,y);sorted.forEach(t=>{let desc=doc.splitTextToSize(String(t.details||''),65),cat=doc.splitTextToSize(String(categoryObj(t.categoryId,t.type)?.name||t.categoryName||''),48),h=Math.max(desc.length,cat.length,1)*4.2+3;ensure(h);doc.text(String(t.date||''),cols[0]+2,y);doc.text(t.type==='in'?'Cash In':'Cash Out',cols[1],y);doc.text(desc,cols[2],y);doc.text(cat,cols[3],y);doc.text(Number(t.amount||0).toFixed(2),cols[4],y,{align:'right'});y+=h;doc.setDrawColor(220);doc.line(left,y-2,right,y-2)});doc.save('RPD_Report_'+d.from+'_to_'+d.to+'.pdf')})}
+function exportReportPDF(){
+ let d=reportData();if(!d)return;
+ if(!window.jspdf)return alert('PDF library unavailable. Check internet connection.');
+ const z=reportTotals(d),doc=new jspdf.jsPDF({unit:'mm',format:'a4'}),left=14,right=196,pageBottom=282;
+ let y=14,logoData=null;
+ const loadLogo=()=>new Promise(resolve=>{
+  const img=new Image();
+  img.onload=()=>{try{const c=document.createElement('canvas');c.width=img.naturalWidth;c.height=img.naturalHeight;c.getContext('2d').drawImage(img,0,0);logoData=c.toDataURL('image/png')}catch(e){}resolve()};
+  img.onerror=resolve;img.src='rpd-letterhead-logo.png';
+ });
+ const drawLetterhead=()=>{
+  if(logoData)doc.addImage(logoData,'PNG',left,y-1,25,25);
+  const tx=left+31;
+  doc.setTextColor(40,120,200);doc.setFont('helvetica','bold');doc.setFontSize(14);doc.text('RUMAH PENJAGAAN DAMAI',tx,y+5);
+  doc.setTextColor(25,35,48);doc.setFont('helvetica','normal');doc.setFontSize(8);
+  doc.text('( SA0055892-M )',tx,y+10);
+  doc.text('LOT 3294, LORONG HAJI ABU BAKAR, KAMPUNG JALAN KEBUN,',tx,y+15);
+  doc.text('SEKSYEN 30, 40460, SHAH ALAM, SELANGOR DARUL EHSAN.',tx,y+19);
+  doc.text('E-mail: rumahpenjagaandamai@gmail.com',tx,y+23);
+  doc.setDrawColor(40,120,200);doc.setLineWidth(.5);doc.line(left,y+29,right,y+29);y+=37;
+ };
+ const newPage=()=>{doc.addPage();y=14;drawLetterhead()};
+ const ensure=(height)=>{if(y+height>pageBottom)newPage()};
+ const drawTableHead=()=>{
+  ensure(12);doc.setFillColor(28,53,80);doc.rect(left,y-5,182,8,'F');
+  doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(7.2);
+  doc.text('DATE',16,y);doc.text('TYPE',36,y);doc.text('DESCRIPTION',57,y);doc.text('CATEGORY',116,y);doc.text('AMOUNT (RM)',194,y,{align:'right'});y+=7;
+ };
+ loadLogo().then(()=>{
+  drawLetterhead();doc.setTextColor(20,30,45);doc.setFont('helvetica','bold');doc.setFontSize(15);doc.text('Financial Report',left,y);y+=7;
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text('RPD Hub | '+d.type.toUpperCase()+' | '+d.from+' to '+d.to,left,y);y+=10;
+  [['Cash In','RM '+z.inc.toFixed(2)],['Cash Out','RM '+z.out.toFixed(2)],['Net','RM '+z.net.toFixed(2)]].forEach((v,i)=>{
+   const x=left+i*62;doc.setDrawColor(190);doc.roundedRect(x,y-5,57,17,2,2,'S');doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text(v[0],x+4,y);doc.setFontSize(10.5);doc.text(v[1],x+4,y+7);
+  });
+  y+=22;doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('Expense breakdown',left,y);y+=7;doc.setFont('helvetica','normal');doc.setFontSize(9);
+  if(z.categories.length){z.categories.forEach(([name,value])=>{ensure(7);doc.text(String(name).slice(0,72),left,y);doc.text('RM '+value.toFixed(2),right,y,{align:'right'});y+=5.5})}
+  else{ensure(7);doc.text('No expenses in this period.',left,y);y+=6}
+  y+=5;ensure(15);doc.setFont('helvetica','bold');doc.setFontSize(12);doc.text('Transaction details',left,y);y+=8;
+  const sorted=d.arr.slice().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));
+  drawTableHead();doc.setTextColor(20,20,20);doc.setFont('helvetica','normal');doc.setFontSize(8);
+  if(!sorted.length){doc.text('No transactions in this period.',left,y);y+=6}
+  sorted.forEach(t=>{
+   const desc=doc.splitTextToSize(String(t.details||''),54),cat=doc.splitTextToSize(String(categoryObj(t.categoryId,t.type)?.name||t.categoryName||''),43);
+   const lines=Math.max(desc.length,cat.length,1),h=lines*4.1+3;
+   if(y+h>pageBottom){newPage();drawTableHead();doc.setTextColor(20,20,20);doc.setFont('helvetica','normal');doc.setFontSize(8)}
+   doc.text(String(t.date||''),16,y);doc.text(t.type==='in'?'Cash In':'Cash Out',36,y);doc.text(desc,57,y);doc.text(cat,116,y);doc.text(Number(t.amount||0).toFixed(2),194,y,{align:'right'});
+   y+=h;doc.setDrawColor(220);doc.line(left,y-2,right,y-2);
+  });
+  doc.save('RPD_Report_'+d.from+'_to_'+d.to+'.pdf');
+ });
+}
 function printReport(){let d=reportData();if(!d)return;document.getElementById('reportResult').innerHTML=reportSummary(d.type,d.from,d.to);window.print()}
 function trashPage(){return `${header("Trash","Restore soft-deleted transactions. They are excluded from all financial totals.")}<div class="panel">${state.trash.length?`<div class="tablewrap"><table><tr><th>Date</th><th>Description</th><th>Amount</th><th>Action</th></tr>${state.trash.map(t=>`<tr><td>${t.date}</td><td>${esc(t.details)}</td><td>${money(t.amount)}</td><td><button class="btn sm primary" onclick="restoreTx('${t.id}')">Restore</button></td></tr>`).join("")}</table></div>`:`<div class="empty">Trash is empty.</div>`}</div>`}
 function restoreTx(id){let t=state.trash.find(x=>x.id===id);if(!t)return;state.trash=state.trash.filter(x=>x.id!==id);delete t.deletedAt;state.transactions.unshift(t);log("TRANSACTION_RESTORED",id,t.details);render()}
