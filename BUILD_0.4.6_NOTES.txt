@@ -1,0 +1,20 @@
+RPD HUB — BUILD 0.4.6 NOTES
+
+Based on the supplied Build 0.4.5 source. This remains a LOCAL PROTOTYPE; Supabase is not connected. Do not enter real resident or financial data.
+
+Changes in 0.4.6:
+- Discharge now asks whether the calculated refund has actually been paid.
+- If marked PAID and the refund is greater than RM0, the app creates a linked, posted Cash Out transaction automatically under REFUND (DISCAJ), dated on the discharge date.
+- The generated transaction is linked to its admission record and includes a resident/admission description for audit traceability.
+- If marked PENDING, the refund amount and pending status are saved on the admission, but no Cashbook transaction is created and balances/reports are not changed until payment is actually made.
+- A zero refund does not create a Cash Out transaction.
+- Audit log records discharge and whether the refund was paid or remains pending.
+- Service-worker cache key updated to 0.4.6 to avoid serving the older cached app.
+
+Validation performed:
+- JavaScript syntax parse passed.
+- ZIP archive integrity passed.
+- Required app assets present.
+- Static checks confirm paid-refund transaction creation, pending-refund exclusion from Cashbook, and REFUND (DISCAJ) category linkage.
+
+Important: This is still a localStorage prototype. The new refund flow must be tested on the live iPhone app before any real data is entered. Existing Build 0.4.5 test records are not migrated automatically by deploying a new build; the browser's existing localStorage remains on that device unless cleared.

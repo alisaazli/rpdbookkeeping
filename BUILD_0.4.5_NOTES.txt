@@ -1,0 +1,15 @@
+RPD HUB — BUILD 0.4.5 NOTES
+
+Based on the supplied Build 0.4.4 source. This remains a LOCAL PROTOTYPE; Supabase is not connected. Do not enter real resident or financial data.
+
+Changes in 0.4.5:
+- Modern SaaS visual refresh using the original RPD navy/blue/green palette.
+- Inter is the main UI font; Space Mono is used for financial figures.
+- Admissions summary now reports distinct residents active at the selected month's end. A month selector allows monthly review; residents discharged on or before month-end are excluded.
+- RPD official letterhead added to report preview and PDF: logo, registered name, registration number, address and email. Phone, Facebook and Instagram are omitted as requested.
+- Print layout uses a report-only A4 layout, letterhead, improved spacing and readable tables. App navigation and GitHub URL footer are excluded.
+- PDF export includes the official letterhead and improved report hierarchy/pagination.
+- Existing CSV and Excel summary/category/transaction exports retained.
+- Existing discharge refund rules and workflow retained from Build 0.4.4. Refund payment itself is not executed; refund remains recorded as pending.
+
+Validation performed before release: JavaScript syntax parse, archive integrity, required asset presence, and static feature checks. Browser/iPhone live interaction testing still required.

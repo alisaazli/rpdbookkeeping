@@ -1,0 +1,16 @@
+RPD HUB — BUILD 0.4.4 NOTES
+
+Based on Build 0.4.3. This remains a LOCAL PROTOTYPE; Supabase is not connected. Do not enter real resident or financial data.
+
+Changes in 0.4.4:
+- Resident Profile now shows a Discharge Resident action directly on each active admission record.
+- Discharge workflow asks for discharge date, whether the current month's fee has been paid, and other deductions.
+- Refund calculation follows the 30-day rule: paid fee = deposit + remaining days' fee; unpaid fee = deposit - occupied days' fee; other deductions are applied. Day 31 is capped at day 30 for the agreed 30-day calculation.
+- Shows refund and any amount still due before confirmation; stores the calculation and audit events in local prototype data.
+- Excel export now has Summary, Expense Breakdown, and Transactions worksheets.
+- CSV export includes summary and expense breakdown as well as transactions.
+- PDF includes summary, category breakdown, and transaction details with pagination.
+- Print stylesheet increases readability and uses more of the A4 page.
+- Date From / Date To fields are constrained to the mobile panel width.
+
+Important: Refund calculations are a prototype implementation of the rules supplied by the owner. Review carefully before using with real residents. Refund payment itself is not executed; the workflow records a calculated refund as pending.

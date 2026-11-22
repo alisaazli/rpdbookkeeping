@@ -1,0 +1,28 @@
+RPD HUB — BUILD 0.4.7 NOTES
+
+Based on the user-supplied latest Build 0.4.6 ZIP: RPD_Hub_Build_0.4.6(1).zip.
+
+This remains a LOCAL BROWSER PROTOTYPE. Supabase is not connected. Do not enter real resident, medical, or live financial data.
+
+Changes in 0.4.7:
+- Admission Details now displays discharge date, fee-paid selection, refund amount, refund status, amount still due, and refund payment details.
+- Added Owner-only, read-only Inspect Saved Refund Data diagnostic. It checks the in-memory admission and the saved record under the existing localStorage key.
+- Added Owner workflow to record payment of a pending refund after discharge.
+- Captures actual payment date, payment method, optional reference, and notes.
+- Creates one linked posted Cash Out transaction under REFUND (DISCAJ) when a pending refund is paid.
+- Prevents duplicate linked system-generated refund transactions for the same admission.
+- Adds a DEPOSIT_REFUND_PAID audit event for later payment.
+- Preserves localStorage key rpd_bookkeeping_v2 to avoid separating existing browser test records.
+- Service worker cache key updated to rpd-hub-047.
+
+Important:
+- Do not clear browser site data or reset storage when deploying.
+- Existing Test A remains UNVERIFIED until the live Build 0.4.7 diagnostic confirms the 21 Nov 2026 admission has refundAmount 3800, refundStatus pending, amountStillDue 0, and no linked refund Cashbook transaction.
+- Test B remains blocked until Test A persistence is verified.
+- This ZIP does not connect Supabase or provide production-grade access controls.
+
+Validation performed for this package:
+- Source block replacement checks.
+- JavaScript syntax validation.
+- ZIP integrity and required asset checks.
+- Manual static review of refund pending/paid paths.

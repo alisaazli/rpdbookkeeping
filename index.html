@@ -66,11 +66,13 @@
  .report-table td:before{display:block;font-size:9px;font-weight:800;text-transform:uppercase;color:var(--muted)}
 }
 
+
+.diagnostic-json{white-space:pre-wrap;overflow-wrap:anywhere;max-height:48vh;overflow:auto;background:var(--surface-2,var(--surface));border:1px solid var(--line);border-radius:10px;padding:12px;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink)}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="brand"><div class="brandmark"><img src="rpd-logo-approved.jpeg" alt="RPD Hub official logo"></div><div><h1>RPD Hub</h1><p>RPD MANAGEMENT SYSTEM</p></div></div><div class="top-actions"><span class="smalltext" style="color:#D7E5F2">BUILD 0.4.6 · PROTOTYPE</span><button class="btn" id="themeBtn">◐ <span>Theme</span></button><button class="btn" id="backupBtn">⇩ <span>Backup</span></button></div></header>
+<header class="topbar"><div class="brand"><div class="brandmark"><img src="rpd-logo-approved.jpeg" alt="RPD Hub official logo"></div><div><h1>RPD Hub</h1><p>RPD MANAGEMENT SYSTEM</p></div></div><div class="top-actions"><span class="smalltext" style="color:#D7E5F2">BUILD 0.4.7 · PROTOTYPE</span><button class="btn" id="themeBtn">◐ <span>Theme</span></button><button class="btn" id="backupBtn">⇩ <span>Backup</span></button></div></header>
 <div class="layout">
 <aside><div class="nav-label">WORKSPACE</div><button class="navbtn active" data-page="dashboard"><span class="ico">▦</span>Dashboard</button><button class="navbtn" data-page="add"><span class="ico">＋</span>Add Transaction</button><button class="navbtn" data-page="history"><span class="ico">▤</span>Transaction History</button><button class="navbtn" data-page="approvals"><span class="ico">◷</span>Approvals <span id="approvalCount" class="badgecount"></span></button><button class="navbtn" data-page="drafts"><span class="ico">▧</span>Drafts</button><div class="nav-label">RESIDENT MANAGEMENT</div><button class="navbtn" data-page="residents"><span class="ico">♙</span>Residents</button><button class="navbtn" data-page="admissions"><span class="ico">▣</span>Admissions</button><div class="nav-label">MANAGEMENT</div><button class="navbtn" data-page="categories"><span class="ico">◇</span>Categories</button><button class="navbtn" data-page="rules"><span class="ico">⌁</span>Learning Rules</button><button class="navbtn" data-page="reports"><span class="ico">▥</span>Reports</button><button class="navbtn" data-page="trash"><span class="ico">♲</span>Trash</button><button class="navbtn" data-page="audit"><span class="ico">≡</span>Audit Trail</button><button class="navbtn" data-page="settings"><span class="ico">⚙</span>Settings</button></aside>
 <main id="main"></main>
@@ -137,7 +139,107 @@ function viewResident(id){let r=state.residents.find(x=>x.id===id);if(!r)return;
 function admissionsPage(){let rows=state.admissions.slice().sort((a,b)=>b.admissionDate.localeCompare(a.admissionDate));let month=state.settings.admissionsMonth||monthNow();let monthEnd=month+'-31';let activeAtMonthEnd=new Set(state.admissions.filter(a=>a.status!=='pending'&&a.admissionDate<=monthEnd&&(!a.dischargeDate||a.dischargeDate>monthEnd)).map(a=>a.residentId)).size;return `${header('Admissions','Admission history, deposit status and activation',`<div class="actions"><label class="smalltext" for="admissionsMonth">Month</label><input id="admissionsMonth" type="month" value="${month}" onchange="state.settings.admissionsMonth=this.value;save();render()" style="border:1px solid var(--line);border-radius:10px;padding:9px;background:var(--surface);color:var(--ink)"><button class="btn primary" onclick="showPage('residents')">＋ Select Resident</button></div>`)}<div class="cards">${metric('Active Residents',activeAtMonthEnd,'●','Active at month end · '+month)}${metric('Pending',rows.filter(a=>a.status==='pending').length,'◷','Awaiting deposit payment')}${metric('Active Admissions',rows.filter(a=>a.status==='active').length,'●','Currently admitted')}${metric('Discharged',rows.filter(a=>a.status==='discharged').length,'↗','Completed stays')}</div><div class="panel">${rows.length?`<div class="tablewrap admissions-table"><table><tr><th>Resident</th><th>Admission Date</th><th>Deposit</th><th>Payment</th><th>Status</th><th>Action</th></tr>${rows.map(a=>{let r=state.residents.find(x=>x.id===a.residentId)||{};return `<tr><td><b>${esc(r.fullName||'Unknown')}</b></td><td>${esc(a.admissionDate)}</td><td>${money(a.depositAmount)}</td><td><span class="pill ${a.depositStatus==='paid'?'in':'pending'}">${esc(a.depositStatus||'pending')}</span></td><td><span class="pill ${a.status==='active'?'in':a.status==='discharged'?'draft':'pending'}">${esc(a.status)}</span></td><td><button class="btn sm" onclick="viewAdmission('${a.id}')">View</button>${a.status==='active'?`<button class="btn sm danger" onclick="dischargeAdmission('${a.id}')">Discharge</button>`:""}</td></tr>`}).join('')}</table></div>`:`<div class="empty">No admissions yet. Create a resident profile first, then add an admission.</div>`}</div><div class="notice warn">Admission activation requires the full deposit to be recorded as paid. This local prototype demonstrates the workflow; the database trigger will enforce the rule after Supabase integration.</div>`}
 function openAdmissionForm(residentId){let r=state.residents.find(x=>x.id===residentId);if(!r)return;openModal('New Admission — '+esc(r.fullName),`<form onsubmit="saveAdmission(event,'${residentId}')"><div class="grid2"><div class="field"><label>Admission date *</label><input id="aDate" type="date" value="${today()}" required></div><div class="field"><label>Monthly fee (RM) *</label><input id="aFee" type="number" min="0" step="0.01" required></div><div class="field"><label>Deposit amount (RM) *</label><input id="aDeposit" type="number" min="0.01" step="0.01" required></div><div class="field"><label>Payment reference (if paid)</label><input id="aRef"></div><div class="field full"><label>Admission notes</label><textarea id="aNotes" rows="2"></textarea></div></div><div class="notice">New admission starts as PENDING. Record full deposit payment before activating the admission.</div><button class="btn primary" type="submit">Create Pending Admission</button></form>`)}
 function saveAdmission(e,residentId){e.preventDefault();let amount=Number(document.getElementById('aDeposit').value),fee=Number(document.getElementById('aFee').value);if(!(amount>0)||!(fee>=0))return alert('Enter a valid deposit and monthly fee.');let a={id:uid(),residentId,admissionDate:document.getElementById('aDate').value,monthlyFee:fee,depositAmount:amount,depositStatus:'pending',depositReference:document.getElementById('aRef').value.trim(),notes:document.getElementById('aNotes').value.trim(),status:'pending',createdAt:new Date().toISOString()};state.admissions.unshift(a);let r=state.residents.find(x=>x.id===residentId);if(r)r.status='pending';save();log('ADMISSION_CREATED',a.id,r?.fullName||'');document.getElementById('modalBack').classList.remove('show');showPage('admissions')}
-function viewAdmission(id){let a=state.admissions.find(x=>x.id===id);if(!a)return;let r=state.residents.find(x=>x.id===a.residentId)||{};openModal('Admission Details',`<h3>${esc(r.fullName||'Resident')}</h3><p>Admission date: <b>${esc(a.admissionDate)}</b></p><p>Monthly fee: <b>${money(a.monthlyFee)}</b></p><p>Deposit required: <b>${money(a.depositAmount)}</b></p><p>Deposit status: <span class="pill ${a.depositStatus==='paid'?'in':'pending'}">${esc(a.depositStatus)}</span></p><p>Admission status: <span class="pill ${a.status==='active'?'in':'pending'}">${esc(a.status)}</span></p>${a.depositStatus!=='paid'?`<button class="btn primary" onclick="recordDeposit('${a.id}')">Record Full Deposit Payment</button>`:''}${a.depositStatus==='paid'&&a.status==='pending'?`<button class="btn primary" onclick="activateAdmission('${a.id}')">Activate Admission</button>`:''}${a.status==='active'?`<button class="btn" onclick="dischargeAdmission('${a.id}')">Record Discharge</button>`:''}`)}
+function viewAdmission(id){
+ let a=state.admissions.find(x=>x.id===id);if(!a)return;
+ let r=state.residents.find(x=>x.id===a.residentId)||{};
+ let hasRefund=Number(a.refundAmount||0)>0;
+ let refundStatus=a.refundStatus||'not-recorded';
+ let refundLabel=refundStatus==='paid'?'Paid':refundStatus==='pending'?'Pending':refundStatus==='not-applicable'?'Not applicable':'Not recorded';
+ let refundClass=refundStatus==='paid'?'in':refundStatus==='pending'?'pending':'draft';
+ openModal('Admission Details',`<h3>${esc(r.fullName||'Resident')}</h3>
+ <p>Admission date: <b>${esc(a.admissionDate)}</b></p>
+ <p>Monthly fee: <b>${money(a.monthlyFee)}</b></p>
+ <p>Deposit required: <b>${money(a.depositAmount)}</b></p>
+ <p>Deposit status: <span class="pill ${a.depositStatus==='paid'?'in':'pending'}">${esc(a.depositStatus||'pending')}</span></p>
+ <p>Admission status: <span class="pill ${a.status==='active'?'in':a.status==='discharged'?'draft':'pending'}">${esc(a.status||'unknown')}</span></p>
+ ${a.status==='discharged'?`<hr><h4>Discharge & Refund</h4>
+ <p>Discharge date: <b>${esc(a.dischargeDate||'—')}</b></p>
+ <p>Current month's fee paid: <b>${a.currentMonthFeePaid===true?'Yes':a.currentMonthFeePaid===false?'No':'—'}</b></p>
+ <p>Refund amount: <b>${hasRefund?money(a.refundAmount):money(0)}</b></p>
+ <p>Refund status: <span class="pill ${refundClass}">${esc(refundLabel)}</span></p>
+ <p>Amount still due: <b>${money(a.amountStillDue||0)}</b></p>
+ ${a.refundPaymentDate?`<p>Refund payment date: <b>${esc(a.refundPaymentDate)}</b></p>`:''}
+ ${a.refundPaymentMethod?`<p>Refund payment method: <b>${esc(a.refundPaymentMethod)}</b></p>`:''}
+ ${a.refundPaymentReference?`<p>Refund payment reference: <b>${esc(a.refundPaymentReference)}</b></p>`:''}
+ ${a.refundTransactionId?`<p>Cashbook transaction ID: <code>${esc(a.refundTransactionId)}</code></p>`:''}
+ ${a.dischargeReason?`<p>Reason / notes: ${esc(a.dischargeReason)}</p>`:''}
+ ${refundStatus==='pending'&&hasRefund&&(state.settings.role||'Owner')==='Owner'?`<button class="btn primary" onclick="recordPendingRefund('${a.id}')">Record Refund Payment</button>`:''}
+ ${((state.settings.role||'Owner')==='Owner')?`<button class="btn" onclick="showRefundDiagnostic('${a.id}')">Inspect Saved Refund Data</button>`:''}`:''}
+ ${a.depositStatus!=='paid'?`<button class="btn primary" onclick="recordDeposit('${a.id}')">Record Full Deposit Payment</button>`:''}
+ ${a.depositStatus==='paid'&&a.status==='pending'?`<button class="btn primary" onclick="activateAdmission('${a.id}')">Activate Admission</button>`:''}
+ ${a.status==='active'?`<button class="btn" onclick="dischargeAdmission('${a.id}')">Record Discharge</button>`:''}`)}
+function showRefundDiagnostic(id){
+ const a=state.admissions.find(x=>x.id===id);if(!a)return;
+ let stored=null,storageError=null;
+ try{const raw=localStorage.getItem(KEY);if(raw){const parsed=JSON.parse(raw);stored=(parsed.admissions||[]).find(x=>x.id===id)||null;}}
+ catch(err){storageError=String(err&&err.message||err);}
+ const audit=(state.audit||[]).filter(x=>x.record===id||String(x.details||'').includes(id)).map(x=>({at:x.at,action:x.action,record:x.record,details:x.details}));
+ const report={
+  storageKey:KEY,
+  storageReadable:!storageError,
+  storageError,
+  admissionId:id,
+  savedRecordFound:!!stored,
+  inMemoryRecordFound:true,
+  persistedFields:stored?{
+   admissionDate:stored.admissionDate,
+   admissionStatus:stored.status,
+   dischargeDate:stored.dischargeDate||null,
+   refundAmount:Object.prototype.hasOwnProperty.call(stored,'refundAmount')?stored.refundAmount:null,
+   refundStatus:Object.prototype.hasOwnProperty.call(stored,'refundStatus')?stored.refundStatus:null,
+   amountStillDue:Object.prototype.hasOwnProperty.call(stored,'amountStillDue')?stored.amountStillDue:null,
+   refundCalculation:stored.refundCalculation||null,
+   refundPaidAt:stored.refundPaidAt||null,
+   refundPaymentDate:stored.refundPaymentDate||null,
+   refundPaymentMethod:stored.refundPaymentMethod||null,
+   refundTransactionId:stored.refundTransactionId||null
+  }:null,
+  inMemoryRefundFields:{
+   refundAmount:Object.prototype.hasOwnProperty.call(a,'refundAmount')?a.refundAmount:null,
+   refundStatus:Object.prototype.hasOwnProperty.call(a,'refundStatus')?a.refundStatus:null,
+   amountStillDue:Object.prototype.hasOwnProperty.call(a,'amountStillDue')?a.amountStillDue:null
+  },
+  linkedRefundCashbookTransaction:state.transactions.some(t=>t.linkedAdmissionId===id&&t.systemGenerated===true),
+  relatedAuditEvents:audit
+ };
+ openModal('Refund Record Diagnostic',`<p class="smalltext">Read-only check. This does not change or reset any saved data.</p><pre class="diagnostic-json">${esc(JSON.stringify(report,null,2))}</pre><button class="btn" onclick="viewAdmission('${id}')">Back to Admission Details</button>`);
+}
+function recordPendingRefund(id){
+ const a=state.admissions.find(x=>x.id===id);
+ if(!a||a.status!=='discharged'||a.refundStatus!=='pending'||Number(a.refundAmount||0)<=0)return alert('This admission does not have an eligible pending refund.');
+ if((state.settings.role||'Owner')!=='Owner')return alert('Only the Owner can record a pending refund payment in this prototype.');
+ const duplicate=state.transactions.find(t=>t.linkedAdmissionId===id&&t.systemGenerated===true);
+ if(duplicate||a.refundTransactionId)return alert('A refund Cashbook transaction is already linked to this admission. No duplicate payment was created.');
+ openModal('Record Refund Payment',`<p>Resident: <b>${esc((state.residents.find(r=>r.id===a.residentId)||{}).fullName||'Resident')}</b></p>
+ <p>Admission date: <b>${esc(a.admissionDate)}</b></p><p>Refund due: <b>${money(a.refundAmount)}</b></p>
+ <form onsubmit="confirmPendingRefund(event,'${id}')">
+ <div class="field"><label>Actual refund payment date *</label><input id="refundPayDate" type="date" min="${esc(a.dischargeDate||a.admissionDate)}" value="${today()}" required></div>
+ <div class="field"><label>Payment method *</label><select id="refundPayMethod" required><option value="">Select</option><option>Bank transfer</option><option>Cash</option><option>Online transfer</option><option>Other</option></select></div>
+ <div class="field"><label>Payment reference</label><input id="refundPayReference"></div>
+ <div class="field"><label>Notes</label><textarea id="refundPayNotes" rows="2"></textarea></div>
+ <button class="btn primary" type="submit">Confirm Refund Payment & Record Cash Out</button></form>`);
+}
+function confirmPendingRefund(e,id){
+ e.preventDefault();
+ const a=state.admissions.find(x=>x.id===id);
+ if(!a||a.status!=='discharged'||a.refundStatus!=='pending'||Number(a.refundAmount||0)<=0)return alert('Pending refund not found. Refresh and inspect the admission again.');
+ if((state.settings.role||'Owner')!=='Owner')return alert('Only the Owner can record a pending refund payment in this prototype.');
+ if(state.transactions.some(t=>t.linkedAdmissionId===id&&t.systemGenerated===true)||a.refundTransactionId)return alert('A refund Cashbook transaction is already linked to this admission. Duplicate payment blocked.');
+ const paymentDate=document.getElementById('refundPayDate').value;
+ const paymentMethod=document.getElementById('refundPayMethod').value;
+ const reference=document.getElementById('refundPayReference').value.trim();
+ const notes=document.getElementById('refundPayNotes').value.trim();
+ if(!paymentDate||paymentDate<(a.dischargeDate||a.admissionDate)||!paymentMethod)return alert('Enter a valid payment date and method.');
+ let category=state.categories.find(x=>x.name.toUpperCase()==='REFUND (DISCAJ)'&&!x.archived);
+ if(!category){category={id:uid(),name:'REFUND (DISCAJ)',subs:['refund deposit'],archived:false,order:Math.max(0,...state.categories.map(x=>x.order||0))+1};state.categories.push(category);}
+ const tx={id:uid(),date:paymentDate,type:'out',details:`Refund deposit to ${(state.residents.find(r=>r.id===a.residentId)||{}).fullName||'resident'} — discharge ${a.dischargeDate||a.admissionDate}`,amount:Number(Number(a.refundAmount).toFixed(2)),categoryId:category.id,categoryName:category.name,subcategory:'refund deposit',receipts:[],status:'posted',createdBy:state.settings.ownerName||'Owner',submittedAt:new Date().toISOString(),systemGenerated:true,linkedAdmissionId:id,paymentMethod,reference,notes};
+ state.transactions.unshift(tx);
+ a.refundStatus='paid';a.refundPaidAt=new Date().toISOString();a.refundPaymentDate=paymentDate;a.refundPaymentMethod=paymentMethod;a.refundPaymentReference=reference;a.refundPaymentNotes=notes;a.refundTransactionId=tx.id;
+ save();
+ log('DEPOSIT_REFUND_PAID',tx.id,`Cash Out ${money(tx.amount)}; payment date ${paymentDate}; method ${paymentMethod}; linked admission ${id}${reference?' ; reference '+reference:''}`);
+ document.getElementById('modalBack').classList.remove('show');
+ viewAdmission(id);
+}
 function recordDeposit(id){let a=state.admissions.find(x=>x.id===id);if(!a)return;openModal('Record Deposit Payment',`<p>Full deposit due: <b>${money(a.depositAmount)}</b></p><form onsubmit="confirmDeposit(event,'${id}')"><div class="field"><label>Amount received (RM) *</label><input id="depAmount" type="number" min="0.01" step="0.01" value="${a.depositAmount}" required></div><div class="field"><label>Payment date *</label><input id="depDate" type="date" value="${today()}" required></div><div class="field"><label>Payment method</label><select id="depMethod"><option>Bank transfer</option><option>Cash</option><option>Online transfer</option><option>Other</option></select></div><div class="field"><label>Reference</label><input id="depRef"></div><button class="btn primary" type="submit">Confirm Payment</button></form>`)}
 function confirmDeposit(e,id){e.preventDefault();let a=state.admissions.find(x=>x.id===id);if(!a)return;let amount=Number(document.getElementById('depAmount').value);if(amount!==Number(a.depositAmount))return alert('Full deposit payment is required. Amount must match '+money(a.depositAmount)+'.');a.depositStatus='paid';a.paymentDate=document.getElementById('depDate').value;a.paymentMethod=document.getElementById('depMethod').value;a.depositReference=document.getElementById('depRef').value.trim();save();log('DEPOSIT_RECEIVED',id,money(amount));document.getElementById('modalBack').classList.remove('show');viewAdmission(id)}
 function activateAdmission(id){let a=state.admissions.find(x=>x.id===id);if(!a)return;if(a.depositStatus!=='paid')return alert('Cannot activate: full deposit has not been paid.');a.status='active';let r=state.residents.find(x=>x.id===a.residentId);if(r)r.status='active';save();log('ADMISSION_ACTIVATED',id,r?.fullName||'');document.getElementById('modalBack').classList.remove('show');showPage('admissions')}
